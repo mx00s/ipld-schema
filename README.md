@@ -5,6 +5,20 @@
 [![CI](https://github.com/mx00s/ipld-schema/workflows/Continuous%20Integration/badge.svg)](https://github.com/mx00s/ipld-schema/actions)
 [![Coverage Status](https://coveralls.io/repos/github/mx00s/ipld-schema/badge.svg?branch=main)](https://coveralls.io/github/mx00s/ipld-schema?branch=main)
 
+## Features
+
+- [ ] DSL
+  - [x] Parse the [schema-schema](./specs/schemas/schema-schema.ipldsch)
+- [ ] Reified Form
+  - [x] Convert parsed schema-schema to its [reified JSON form](./specs/schemas/schema-schema.ipldsch.json)
+  - [x] Convert reified form of the schema-schema back to its DSL representation (sans comments)
+  - [ ] Generate arbitrary IPLD schemas in reified form from the parsed schema-schema
+  - [ ] Validate IPLD schema in reified form against the schema-schema and additional constraints (e.g. "rules around valid characters for type names")
+  - [ ] Generate Rust types from a valid IPLD schema
+  - [ ] Parse IPLD values into Rust types generated from a compatible schema  
+  - [ ] Generate arbitrary IPLD values from the reified form of some IPLD schema
+  - [ ] Verify generated IPLD values roundtrip through parsing to Rust types which were generated from the IPLD schema
+
 ## License
 
 Licensed under either of

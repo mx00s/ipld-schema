@@ -1,0 +1,1392 @@
+---
+source: src/schema.rs
+expression: schema_schema()
+---
+Schema {
+    types: SchemaMap(
+        {
+            TypeName(
+                "AdvancedDataLayout",
+            ): Struct(
+                TypeStruct {
+                    fields: {},
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "AdvancedDataLayoutMap",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "AdvancedDataLayoutName",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "AdvancedDataLayout",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: Map(
+                        Map,
+                    ),
+                },
+            ),
+            TypeName(
+                "AdvancedDataLayoutName",
+            ): String(
+                TypeString,
+            ),
+            TypeName(
+                "AnyScalar",
+            ): Union(
+                TypeUnion {
+                    representation: Kinded(
+                        Kinded(
+                            {
+                                Bool: TypeName(
+                                    "Bool",
+                                ),
+                                String: TypeName(
+                                    "String",
+                                ),
+                                Bytes: TypeName(
+                                    "Bytes",
+                                ),
+                                Int: TypeName(
+                                    "Int",
+                                ),
+                                Float: TypeName(
+                                    "Float",
+                                ),
+                            },
+                        ),
+                    ),
+                },
+            ),
+            TypeName(
+                "BytesRepresentation",
+            ): Union(
+                TypeUnion {
+                    representation: Keyed(
+                        Keyed(
+                            {
+                                "advanced": TypeName(
+                                    "AdvancedDataLayoutName",
+                                ),
+                                "bytes": TypeName(
+                                    "BytesRepresentation_Bytes",
+                                ),
+                            },
+                        ),
+                    ),
+                },
+            ),
+            TypeName(
+                "BytesRepresentation_Bytes",
+            ): Struct(
+                TypeStruct {
+                    fields: {},
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "EnumRepresentation",
+            ): Union(
+                TypeUnion {
+                    representation: Keyed(
+                        Keyed(
+                            {
+                                "int": TypeName(
+                                    "EnumRepresentation_Int",
+                                ),
+                                "string": TypeName(
+                                    "EnumRepresentation_String",
+                                ),
+                            },
+                        ),
+                    ),
+                },
+            ),
+            TypeName(
+                "EnumRepresentation_Int",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "EnumValue",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "Int",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: Map(
+                        Map,
+                    ),
+                },
+            ),
+            TypeName(
+                "EnumRepresentation_String",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "EnumValue",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "String",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: Map(
+                        Map,
+                    ),
+                },
+            ),
+            TypeName(
+                "EnumValue",
+            ): String(
+                TypeString,
+            ),
+            TypeName(
+                "FieldName",
+            ): String(
+                TypeString,
+            ),
+            TypeName(
+                "InlineDefn",
+            ): Union(
+                TypeUnion {
+                    representation: Inline(
+                        Inline {
+                            discriminant_key: "kind",
+                            discriminant_table: {
+                                "list": TypeName(
+                                    "TypeList",
+                                ),
+                                "map": TypeName(
+                                    "TypeMap",
+                                ),
+                            },
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "ListRepresentation",
+            ): Union(
+                TypeUnion {
+                    representation: Keyed(
+                        Keyed(
+                            {
+                                "advanced": TypeName(
+                                    "AdvancedDataLayoutName",
+                                ),
+                                "list": TypeName(
+                                    "ListRepresentation_List",
+                                ),
+                            },
+                        ),
+                    ),
+                },
+            ),
+            TypeName(
+                "ListRepresentation_List",
+            ): Struct(
+                TypeStruct {
+                    fields: {},
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "MapRepresentation",
+            ): Union(
+                TypeUnion {
+                    representation: Keyed(
+                        Keyed(
+                            {
+                                "advanced": TypeName(
+                                    "AdvancedDataLayoutName",
+                                ),
+                                "listpairs": TypeName(
+                                    "MapRepresentation_ListPairs",
+                                ),
+                                "map": TypeName(
+                                    "MapRepresentation_Map",
+                                ),
+                                "stringpairs": TypeName(
+                                    "MapRepresentation_StringPairs",
+                                ),
+                            },
+                        ),
+                    ),
+                },
+            ),
+            TypeName(
+                "MapRepresentation_ListPairs",
+            ): Struct(
+                TypeStruct {
+                    fields: {},
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "MapRepresentation_Map",
+            ): Struct(
+                TypeStruct {
+                    fields: {},
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "MapRepresentation_StringPairs",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "entryDelim",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "String",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "innerDelim",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "String",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "RepresentationKind",
+            ): Enum(
+                TypeEnum {
+                    members: {
+                        EnumValue(
+                            "Bool",
+                        ): Null,
+                        EnumValue(
+                            "Bytes",
+                        ): Null,
+                        EnumValue(
+                            "Float",
+                        ): Null,
+                        EnumValue(
+                            "Int",
+                        ): Null,
+                        EnumValue(
+                            "Link",
+                        ): Null,
+                        EnumValue(
+                            "List",
+                        ): Null,
+                        EnumValue(
+                            "Map",
+                        ): Null,
+                        EnumValue(
+                            "String",
+                        ): Null,
+                    },
+                    representation: String(
+                        String(
+                            {},
+                        ),
+                    ),
+                },
+            ),
+            TypeName(
+                "Schema",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "advanced",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "AdvancedDataLayoutMap",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "types",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "SchemaMap",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "SchemaMap",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "TypeName",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "Type",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: Map(
+                        Map,
+                    ),
+                },
+            ),
+            TypeName(
+                "StructField",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "nullable",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "Bool",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "optional",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "Bool",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "type",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "TypeTerm",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: Some(
+                                {
+                                    FieldName(
+                                        "nullable",
+                                    ): MapFieldDetails {
+                                        rename: None,
+                                        implicit: Some(
+                                            Bool(
+                                                false,
+                                            ),
+                                        ),
+                                    },
+                                    FieldName(
+                                        "optional",
+                                    ): MapFieldDetails {
+                                        rename: None,
+                                        implicit: Some(
+                                            Bool(
+                                                false,
+                                            ),
+                                        ),
+                                    },
+                                },
+                            ),
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "StructRepresentation",
+            ): Union(
+                TypeUnion {
+                    representation: Keyed(
+                        Keyed(
+                            {
+                                "listpairs": TypeName(
+                                    "StructRepresentation_ListPairs",
+                                ),
+                                "map": TypeName(
+                                    "StructRepresentation_Map",
+                                ),
+                                "stringjoin": TypeName(
+                                    "StructRepresentation_StringJoin",
+                                ),
+                                "stringpairs": TypeName(
+                                    "StructRepresentation_StringPairs",
+                                ),
+                                "tuple": TypeName(
+                                    "StructRepresentation_Tuple",
+                                ),
+                            },
+                        ),
+                    ),
+                },
+            ),
+            TypeName(
+                "StructRepresentation_ListPairs",
+            ): Struct(
+                TypeStruct {
+                    fields: {},
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "StructRepresentation_Map",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "fields",
+                        ): StructField {
+                            type: InlineDefn(
+                                Map(
+                                    TypeMap {
+                                        key_type: TypeName(
+                                            "FieldName",
+                                        ),
+                                        value_type: TypeName(
+                                            TypeName(
+                                                "StructRepresentation_Map_FieldDetails",
+                                            ),
+                                        ),
+                                        value_nullable: false,
+                                        representation: Map(
+                                            Map,
+                                        ),
+                                    },
+                                ),
+                            ),
+                            optional: true,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "StructRepresentation_Map_FieldDetails",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "implicit",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "AnyScalar",
+                                ),
+                            ),
+                            optional: true,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "rename",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "String",
+                                ),
+                            ),
+                            optional: true,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "StructRepresentation_StringJoin",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "fieldOrder",
+                        ): StructField {
+                            type: InlineDefn(
+                                List(
+                                    TypeList {
+                                        value_type: TypeName(
+                                            TypeName(
+                                                "FieldName",
+                                            ),
+                                        ),
+                                        value_nullable: false,
+                                        representation: List(
+                                            List,
+                                        ),
+                                    },
+                                ),
+                            ),
+                            optional: true,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "join",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "String",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "StructRepresentation_StringPairs",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "entryDelim",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "String",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "innerDelim",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "String",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "StructRepresentation_Tuple",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "fieldOrder",
+                        ): StructField {
+                            type: InlineDefn(
+                                List(
+                                    TypeList {
+                                        value_type: TypeName(
+                                            TypeName(
+                                                "FieldName",
+                                            ),
+                                        ),
+                                        value_nullable: false,
+                                        representation: List(
+                                            List,
+                                        ),
+                                    },
+                                ),
+                            ),
+                            optional: true,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "Type",
+            ): Union(
+                TypeUnion {
+                    representation: Inline(
+                        Inline {
+                            discriminant_key: "kind",
+                            discriminant_table: {
+                                "bool": TypeName(
+                                    "TypeBool",
+                                ),
+                                "bytes": TypeName(
+                                    "TypeBytes",
+                                ),
+                                "copy": TypeName(
+                                    "TypeCopy",
+                                ),
+                                "enum": TypeName(
+                                    "TypeEnum",
+                                ),
+                                "float": TypeName(
+                                    "TypeFloat",
+                                ),
+                                "int": TypeName(
+                                    "TypeInt",
+                                ),
+                                "link": TypeName(
+                                    "TypeLink",
+                                ),
+                                "list": TypeName(
+                                    "TypeList",
+                                ),
+                                "map": TypeName(
+                                    "TypeMap",
+                                ),
+                                "string": TypeName(
+                                    "TypeString",
+                                ),
+                                "struct": TypeName(
+                                    "TypeStruct",
+                                ),
+                                "union": TypeName(
+                                    "TypeUnion",
+                                ),
+                            },
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeBool",
+            ): Struct(
+                TypeStruct {
+                    fields: {},
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeBytes",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "representation",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "BytesRepresentation",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeCopy",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "fromType",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "TypeName",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeEnum",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "members",
+                        ): StructField {
+                            type: InlineDefn(
+                                Map(
+                                    TypeMap {
+                                        key_type: TypeName(
+                                            "EnumValue",
+                                        ),
+                                        value_type: TypeName(
+                                            TypeName(
+                                                "Null",
+                                            ),
+                                        ),
+                                        value_nullable: false,
+                                        representation: Map(
+                                            Map,
+                                        ),
+                                    },
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "representation",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "EnumRepresentation",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeFloat",
+            ): Struct(
+                TypeStruct {
+                    fields: {},
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeInt",
+            ): Struct(
+                TypeStruct {
+                    fields: {},
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeKind",
+            ): Enum(
+                TypeEnum {
+                    members: {
+                        EnumValue(
+                            "Bool",
+                        ): Null,
+                        EnumValue(
+                            "Bytes",
+                        ): Null,
+                        EnumValue(
+                            "Enum",
+                        ): Null,
+                        EnumValue(
+                            "Float",
+                        ): Null,
+                        EnumValue(
+                            "Int",
+                        ): Null,
+                        EnumValue(
+                            "Link",
+                        ): Null,
+                        EnumValue(
+                            "List",
+                        ): Null,
+                        EnumValue(
+                            "Map",
+                        ): Null,
+                        EnumValue(
+                            "String",
+                        ): Null,
+                        EnumValue(
+                            "Struct",
+                        ): Null,
+                        EnumValue(
+                            "Union",
+                        ): Null,
+                    },
+                    representation: String(
+                        String(
+                            {},
+                        ),
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeLink",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "expectedType",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "String",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: Some(
+                                {
+                                    FieldName(
+                                        "expectedType",
+                                    ): MapFieldDetails {
+                                        rename: None,
+                                        implicit: Some(
+                                            String(
+                                                "Any",
+                                            ),
+                                        ),
+                                    },
+                                },
+                            ),
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeList",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "representation",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "ListRepresentation",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "valueNullable",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "Bool",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "valueType",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "TypeTerm",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: Some(
+                                {
+                                    FieldName(
+                                        "valueNullable",
+                                    ): MapFieldDetails {
+                                        rename: None,
+                                        implicit: Some(
+                                            Bool(
+                                                false,
+                                            ),
+                                        ),
+                                    },
+                                },
+                            ),
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeMap",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "keyType",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "TypeName",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "representation",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "MapRepresentation",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "valueNullable",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "Bool",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "valueType",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "TypeTerm",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: Some(
+                                {
+                                    FieldName(
+                                        "valueNullable",
+                                    ): MapFieldDetails {
+                                        rename: None,
+                                        implicit: Some(
+                                            Bool(
+                                                false,
+                                            ),
+                                        ),
+                                    },
+                                },
+                            ),
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeName",
+            ): String(
+                TypeString,
+            ),
+            TypeName(
+                "TypeString",
+            ): Struct(
+                TypeStruct {
+                    fields: {},
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeStruct",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "fields",
+                        ): StructField {
+                            type: InlineDefn(
+                                Map(
+                                    TypeMap {
+                                        key_type: TypeName(
+                                            "FieldName",
+                                        ),
+                                        value_type: TypeName(
+                                            TypeName(
+                                                "StructField",
+                                            ),
+                                        ),
+                                        value_nullable: false,
+                                        representation: Map(
+                                            Map,
+                                        ),
+                                    },
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "representation",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "StructRepresentation",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeTerm",
+            ): Union(
+                TypeUnion {
+                    representation: Kinded(
+                        Kinded(
+                            {
+                                String: TypeName(
+                                    "TypeName",
+                                ),
+                                Map: TypeName(
+                                    "InlineDefn",
+                                ),
+                            },
+                        ),
+                    ),
+                },
+            ),
+            TypeName(
+                "TypeUnion",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "representation",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "UnionRepresentation",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "UnionRepresentation",
+            ): Union(
+                TypeUnion {
+                    representation: Keyed(
+                        Keyed(
+                            {
+                                "byteprefix": TypeName(
+                                    "UnionRepresentation_BytePrefix",
+                                ),
+                                "envelope": TypeName(
+                                    "UnionRepresentation_Envelope",
+                                ),
+                                "inline": TypeName(
+                                    "UnionRepresentation_Inline",
+                                ),
+                                "keyed": TypeName(
+                                    "UnionRepresentation_Keyed",
+                                ),
+                                "kinded": TypeName(
+                                    "UnionRepresentation_Kinded",
+                                ),
+                            },
+                        ),
+                    ),
+                },
+            ),
+            TypeName(
+                "UnionRepresentation_BytePrefix",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "discriminantTable",
+                        ): StructField {
+                            type: InlineDefn(
+                                Map(
+                                    TypeMap {
+                                        key_type: TypeName(
+                                            "TypeName",
+                                        ),
+                                        value_type: TypeName(
+                                            TypeName(
+                                                "Int",
+                                            ),
+                                        ),
+                                        value_nullable: false,
+                                        representation: Map(
+                                            Map,
+                                        ),
+                                    },
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "UnionRepresentation_Envelope",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "contentKey",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "String",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "discriminantKey",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "String",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "discriminantTable",
+                        ): StructField {
+                            type: InlineDefn(
+                                Map(
+                                    TypeMap {
+                                        key_type: TypeName(
+                                            "String",
+                                        ),
+                                        value_type: TypeName(
+                                            TypeName(
+                                                "TypeName",
+                                            ),
+                                        ),
+                                        value_nullable: false,
+                                        representation: Map(
+                                            Map,
+                                        ),
+                                    },
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "UnionRepresentation_Inline",
+            ): Struct(
+                TypeStruct {
+                    fields: {
+                        FieldName(
+                            "discriminantKey",
+                        ): StructField {
+                            type: TypeName(
+                                TypeName(
+                                    "String",
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                        FieldName(
+                            "discriminantTable",
+                        ): StructField {
+                            type: InlineDefn(
+                                Map(
+                                    TypeMap {
+                                        key_type: TypeName(
+                                            "String",
+                                        ),
+                                        value_type: TypeName(
+                                            TypeName(
+                                                "TypeName",
+                                            ),
+                                        ),
+                                        value_nullable: false,
+                                        representation: Map(
+                                            Map,
+                                        ),
+                                    },
+                                ),
+                            ),
+                            optional: false,
+                            nullable: false,
+                        },
+                    },
+                    representation: Map(
+                        Map {
+                            fields: None,
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "UnionRepresentation_Keyed",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "String",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "TypeName",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: Map(
+                        Map,
+                    ),
+                },
+            ),
+            TypeName(
+                "UnionRepresentation_Kinded",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "RepresentationKind",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "TypeName",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: Map(
+                        Map,
+                    ),
+                },
+            ),
+        },
+    ),
+    advanced: AdvancedDataLayoutMap(
+        {},
+    ),
+}

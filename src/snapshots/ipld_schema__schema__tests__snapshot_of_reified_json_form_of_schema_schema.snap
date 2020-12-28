@@ -1,0 +1,649 @@
+---
+source: src/schema.rs
+expression: schema_schema()
+---
+{
+  "types": {
+    "AdvancedDataLayout": {
+      "kind": "struct",
+      "fields": {},
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "AdvancedDataLayoutMap": {
+      "kind": "map",
+      "keyType": "AdvancedDataLayoutName",
+      "valueType": "AdvancedDataLayout"
+    },
+    "AdvancedDataLayoutName": {
+      "kind": "string"
+    },
+    "AnyScalar": {
+      "kind": "union",
+      "representation": {
+        "kinded": {
+          "bool": "Bool",
+          "string": "String",
+          "bytes": "Bytes",
+          "int": "Int",
+          "float": "Float"
+        }
+      }
+    },
+    "BytesRepresentation": {
+      "kind": "union",
+      "representation": {
+        "keyed": {
+          "advanced": "AdvancedDataLayoutName",
+          "bytes": "BytesRepresentation_Bytes"
+        }
+      }
+    },
+    "BytesRepresentation_Bytes": {
+      "kind": "struct",
+      "fields": {},
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "EnumRepresentation": {
+      "kind": "union",
+      "representation": {
+        "keyed": {
+          "int": "EnumRepresentation_Int",
+          "string": "EnumRepresentation_String"
+        }
+      }
+    },
+    "EnumRepresentation_Int": {
+      "kind": "map",
+      "keyType": "EnumValue",
+      "valueType": "Int"
+    },
+    "EnumRepresentation_String": {
+      "kind": "map",
+      "keyType": "EnumValue",
+      "valueType": "String"
+    },
+    "EnumValue": {
+      "kind": "string"
+    },
+    "FieldName": {
+      "kind": "string"
+    },
+    "InlineDefn": {
+      "kind": "union",
+      "representation": {
+        "inline": {
+          "discriminantKey": "kind",
+          "discriminantTable": {
+            "list": "TypeList",
+            "map": "TypeMap"
+          }
+        }
+      }
+    },
+    "ListRepresentation": {
+      "kind": "union",
+      "representation": {
+        "keyed": {
+          "advanced": "AdvancedDataLayoutName",
+          "list": "ListRepresentation_List"
+        }
+      }
+    },
+    "ListRepresentation_List": {
+      "kind": "struct",
+      "fields": {},
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "MapRepresentation": {
+      "kind": "union",
+      "representation": {
+        "keyed": {
+          "advanced": "AdvancedDataLayoutName",
+          "listpairs": "MapRepresentation_ListPairs",
+          "map": "MapRepresentation_Map",
+          "stringpairs": "MapRepresentation_StringPairs"
+        }
+      }
+    },
+    "MapRepresentation_ListPairs": {
+      "kind": "struct",
+      "fields": {},
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "MapRepresentation_Map": {
+      "kind": "struct",
+      "fields": {},
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "MapRepresentation_StringPairs": {
+      "kind": "struct",
+      "fields": {
+        "entryDelim": {
+          "type": "String"
+        },
+        "innerDelim": {
+          "type": "String"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "RepresentationKind": {
+      "kind": "enum",
+      "members": {
+        "Bool": null,
+        "Bytes": null,
+        "Float": null,
+        "Int": null,
+        "Link": null,
+        "List": null,
+        "Map": null,
+        "String": null
+      },
+      "representation": {
+        "string": {}
+      }
+    },
+    "Schema": {
+      "kind": "struct",
+      "fields": {
+        "advanced": {
+          "type": "AdvancedDataLayoutMap"
+        },
+        "types": {
+          "type": "SchemaMap"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "SchemaMap": {
+      "kind": "map",
+      "keyType": "TypeName",
+      "valueType": "Type"
+    },
+    "StructField": {
+      "kind": "struct",
+      "fields": {
+        "nullable": {
+          "type": "Bool"
+        },
+        "optional": {
+          "type": "Bool"
+        },
+        "type": {
+          "type": "TypeTerm"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": {
+            "nullable": {
+              "rename": null,
+              "implicit": false
+            },
+            "optional": {
+              "rename": null,
+              "implicit": false
+            }
+          }
+        }
+      }
+    },
+    "StructRepresentation": {
+      "kind": "union",
+      "representation": {
+        "keyed": {
+          "listpairs": "StructRepresentation_ListPairs",
+          "map": "StructRepresentation_Map",
+          "stringjoin": "StructRepresentation_StringJoin",
+          "stringpairs": "StructRepresentation_StringPairs",
+          "tuple": "StructRepresentation_Tuple"
+        }
+      }
+    },
+    "StructRepresentation_ListPairs": {
+      "kind": "struct",
+      "fields": {},
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "StructRepresentation_Map": {
+      "kind": "struct",
+      "fields": {
+        "fields": {
+          "type": {
+            "kind": "map",
+            "keyType": "FieldName",
+            "valueType": "StructRepresentation_Map_FieldDetails"
+          },
+          "optional": true
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "StructRepresentation_Map_FieldDetails": {
+      "kind": "struct",
+      "fields": {
+        "implicit": {
+          "type": "AnyScalar",
+          "optional": true
+        },
+        "rename": {
+          "type": "String",
+          "optional": true
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "StructRepresentation_StringJoin": {
+      "kind": "struct",
+      "fields": {
+        "fieldOrder": {
+          "type": {
+            "kind": "list",
+            "valueType": "FieldName"
+          },
+          "optional": true
+        },
+        "join": {
+          "type": "String"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "StructRepresentation_StringPairs": {
+      "kind": "struct",
+      "fields": {
+        "entryDelim": {
+          "type": "String"
+        },
+        "innerDelim": {
+          "type": "String"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "StructRepresentation_Tuple": {
+      "kind": "struct",
+      "fields": {
+        "fieldOrder": {
+          "type": {
+            "kind": "list",
+            "valueType": "FieldName"
+          },
+          "optional": true
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "Type": {
+      "kind": "union",
+      "representation": {
+        "inline": {
+          "discriminantKey": "kind",
+          "discriminantTable": {
+            "bool": "TypeBool",
+            "bytes": "TypeBytes",
+            "copy": "TypeCopy",
+            "enum": "TypeEnum",
+            "float": "TypeFloat",
+            "int": "TypeInt",
+            "link": "TypeLink",
+            "list": "TypeList",
+            "map": "TypeMap",
+            "string": "TypeString",
+            "struct": "TypeStruct",
+            "union": "TypeUnion"
+          }
+        }
+      }
+    },
+    "TypeBool": {
+      "kind": "struct",
+      "fields": {},
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "TypeBytes": {
+      "kind": "struct",
+      "fields": {
+        "representation": {
+          "type": "BytesRepresentation"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "TypeCopy": {
+      "kind": "struct",
+      "fields": {
+        "fromType": {
+          "type": "TypeName"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "TypeEnum": {
+      "kind": "struct",
+      "fields": {
+        "members": {
+          "type": {
+            "kind": "map",
+            "keyType": "EnumValue",
+            "valueType": "Null"
+          }
+        },
+        "representation": {
+          "type": "EnumRepresentation"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "TypeFloat": {
+      "kind": "struct",
+      "fields": {},
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "TypeInt": {
+      "kind": "struct",
+      "fields": {},
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "TypeKind": {
+      "kind": "enum",
+      "members": {
+        "Bool": null,
+        "Bytes": null,
+        "Enum": null,
+        "Float": null,
+        "Int": null,
+        "Link": null,
+        "List": null,
+        "Map": null,
+        "String": null,
+        "Struct": null,
+        "Union": null
+      },
+      "representation": {
+        "string": {}
+      }
+    },
+    "TypeLink": {
+      "kind": "struct",
+      "fields": {
+        "expectedType": {
+          "type": "String"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": {
+            "expectedType": {
+              "rename": null,
+              "implicit": "Any"
+            }
+          }
+        }
+      }
+    },
+    "TypeList": {
+      "kind": "struct",
+      "fields": {
+        "representation": {
+          "type": "ListRepresentation"
+        },
+        "valueNullable": {
+          "type": "Bool"
+        },
+        "valueType": {
+          "type": "TypeTerm"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": {
+            "valueNullable": {
+              "rename": null,
+              "implicit": false
+            }
+          }
+        }
+      }
+    },
+    "TypeMap": {
+      "kind": "struct",
+      "fields": {
+        "keyType": {
+          "type": "TypeName"
+        },
+        "representation": {
+          "type": "MapRepresentation"
+        },
+        "valueNullable": {
+          "type": "Bool"
+        },
+        "valueType": {
+          "type": "TypeTerm"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": {
+            "valueNullable": {
+              "rename": null,
+              "implicit": false
+            }
+          }
+        }
+      }
+    },
+    "TypeName": {
+      "kind": "string"
+    },
+    "TypeString": {
+      "kind": "struct",
+      "fields": {},
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "TypeStruct": {
+      "kind": "struct",
+      "fields": {
+        "fields": {
+          "type": {
+            "kind": "map",
+            "keyType": "FieldName",
+            "valueType": "StructField"
+          }
+        },
+        "representation": {
+          "type": "StructRepresentation"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "TypeTerm": {
+      "kind": "union",
+      "representation": {
+        "kinded": {
+          "string": "TypeName",
+          "map": "InlineDefn"
+        }
+      }
+    },
+    "TypeUnion": {
+      "kind": "struct",
+      "fields": {
+        "representation": {
+          "type": "UnionRepresentation"
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "UnionRepresentation": {
+      "kind": "union",
+      "representation": {
+        "keyed": {
+          "byteprefix": "UnionRepresentation_BytePrefix",
+          "envelope": "UnionRepresentation_Envelope",
+          "inline": "UnionRepresentation_Inline",
+          "keyed": "UnionRepresentation_Keyed",
+          "kinded": "UnionRepresentation_Kinded"
+        }
+      }
+    },
+    "UnionRepresentation_BytePrefix": {
+      "kind": "struct",
+      "fields": {
+        "discriminantTable": {
+          "type": {
+            "kind": "map",
+            "keyType": "TypeName",
+            "valueType": "Int"
+          }
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "UnionRepresentation_Envelope": {
+      "kind": "struct",
+      "fields": {
+        "contentKey": {
+          "type": "String"
+        },
+        "discriminantKey": {
+          "type": "String"
+        },
+        "discriminantTable": {
+          "type": {
+            "kind": "map",
+            "keyType": "String",
+            "valueType": "TypeName"
+          }
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "UnionRepresentation_Inline": {
+      "kind": "struct",
+      "fields": {
+        "discriminantKey": {
+          "type": "String"
+        },
+        "discriminantTable": {
+          "type": {
+            "kind": "map",
+            "keyType": "String",
+            "valueType": "TypeName"
+          }
+        }
+      },
+      "representation": {
+        "map": {
+          "fields": null
+        }
+      }
+    },
+    "UnionRepresentation_Keyed": {
+      "kind": "map",
+      "keyType": "String",
+      "valueType": "TypeName"
+    },
+    "UnionRepresentation_Kinded": {
+      "kind": "map",
+      "keyType": "RepresentationKind",
+      "valueType": "TypeName"
+    }
+  }
+}

@@ -1,0 +1,3 @@
+[alias]
+ir = "insta review"
+w = "watch -c -x ir -x test -x clippy -x doc"
