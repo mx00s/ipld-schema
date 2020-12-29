@@ -9,7 +9,7 @@ expression: schema_schema()
       "fields": {},
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -47,7 +47,7 @@ expression: schema_schema()
       "fields": {},
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -102,7 +102,7 @@ expression: schema_schema()
       "fields": {},
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -122,7 +122,7 @@ expression: schema_schema()
       "fields": {},
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -131,7 +131,7 @@ expression: schema_schema()
       "fields": {},
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -147,7 +147,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -179,7 +179,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -233,7 +233,7 @@ expression: schema_schema()
       "fields": {},
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -251,7 +251,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -269,7 +269,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -289,7 +289,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -305,7 +305,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -322,7 +322,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -353,7 +353,7 @@ expression: schema_schema()
       "fields": {},
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -366,7 +366,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -379,7 +379,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -399,7 +399,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -408,7 +408,7 @@ expression: schema_schema()
       "fields": {},
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -417,7 +417,7 @@ expression: schema_schema()
       "fields": {},
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -517,7 +517,7 @@ expression: schema_schema()
       "fields": {},
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -537,7 +537,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -559,7 +559,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -588,7 +588,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -611,7 +611,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },
@@ -631,7 +631,7 @@ expression: schema_schema()
       },
       "representation": {
         "map": {
-          "fields": null
+          "fields": {}
         }
       }
     },

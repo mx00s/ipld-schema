@@ -1,3 +1,6 @@
 [alias]
+ft = "test --features fast-test"
+lt = "test"
+cov = "tarpaulin --ignore-tests --out Lcov --features fast-test"
 ir = "insta review"
-w = "watch -c -x ir -x test -x clippy -x doc"
+w = "watch -c -x ir -x ft -x clippy -x doc"

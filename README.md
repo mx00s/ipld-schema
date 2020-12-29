@@ -15,6 +15,7 @@
   - [ ] Generate arbitrary IPLD schemas in reified form from the parsed schema-schema
   - [ ] Validate IPLD schema in reified form against the schema-schema and additional constraints (e.g. "rules around valid characters for type names")
   - [ ] Generate Rust types from a valid IPLD schema
+  - [ ] Test generated IPLD schemas against implementations in other languages
   - [ ] Parse IPLD values into Rust types generated from a compatible schema  
   - [ ] Generate arbitrary IPLD values from the reified form of some IPLD schema
   - [ ] Verify generated IPLD values roundtrip through parsing to Rust types which were generated from the IPLD schema
