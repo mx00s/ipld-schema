@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 use serde::{Deserialize, Serialize};
+use std::fmt;
 
 type Int = isize;
 type Float = f64;
@@ -413,6 +414,355 @@ pub struct TypeCopy {
     from_type: TypeName,
 }
 
+const L_BOOL: &str = "bool";
+const L_STRING: &str = "string";
+const L_BYTES: &str = "bytes";
+const L_INT: &str = "int";
+const L_FLOAT: &str = "float";
+const L_MAP: &str = "map";
+const L_LIST: &str = "list";
+const L_LINK: &str = "link";
+const L_UNION: &str = "union";
+const L_STRUCT: &str = "struct";
+const L_ENUM: &str = "enum";
+
+const L_TYPE: &str = "type";
+const L_OPTIONAL: &str = "optional";
+const L_NULLABLE: &str = "nullable";
+const L_LINK_REF: &str = "&";
+const L_COPY: &str = "=";
+const L_REPRESENTATION: &str = "representation";
+const L_KINDED: &str = "kinded";
+const L_KEYED: &str = "keyed";
+const L_ENVELOPE: &str = "envelope";
+const L_INLINE: &str = "inline";
+const L_DISCRIMINANT_KEY: &str = "discriminantKey";
+const L_IMPLICIT: &str = "implicit";
+
+impl fmt::Display for TypeName {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{}", self.0)
+    }
+}
+
+impl fmt::Display for SchemaMap {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        for (name, ty) in &self.0 {
+            write!(f, "{} {} {}\n\n", L_TYPE, name, ty)?;
+        }
+        Ok(())
+    }
+}
+
+impl fmt::Display for Schema {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        // TODO: self.advanced
+        write!(f, "{}", &self.types)
+    }
+}
+
+impl fmt::Display for Type {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match self {
+            Self::Bool(x) => write!(f, "{}", x),
+            Self::String(x) => write!(f, "{}", x),
+            Self::Bytes(x) => write!(f, "{}", x),
+            Self::Int(x) => write!(f, "{}", x),
+            Self::Float(x) => write!(f, "{}", x),
+            Self::Map(x) => write!(f, "{}", x),
+            Self::List(x) => write!(f, "{}", x),
+            Self::Link(x) => write!(f, "{}", x),
+            Self::Union(x) => write!(f, "{}", x),
+            Self::Struct(x) => write!(f, "{}", x),
+            Self::Enum(x) => write!(f, "{}", x),
+            Self::Copy(x) => write!(f, "{}", x),
+        }
+    }
+}
+
+impl fmt::Display for TypeKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match self {
+            Self::Bool => write!(f, "{}", L_BOOL),
+            Self::String => write!(f, "{}", L_STRING),
+            Self::Bytes => write!(f, "{}", L_BYTES),
+            Self::Int => write!(f, "{}", L_INT),
+            Self::Float => write!(f, "{}", L_FLOAT),
+            Self::Map => write!(f, "{}", L_MAP),
+            Self::List => write!(f, "{}", L_LIST),
+            Self::Link => write!(f, "{}", L_LINK),
+            Self::Union => write!(f, "{}", L_UNION),
+            Self::Struct => write!(f, "{}", L_STRUCT),
+            Self::Enum => write!(f, "{}", L_ENUM),
+        }
+    }
+}
+
+impl fmt::Display for RepresentationKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match self {
+            Self::Bool => write!(f, "{}", L_BOOL),
+            Self::String => write!(f, "{}", L_STRING),
+            Self::Bytes => write!(f, "{}", L_BYTES),
+            Self::Int => write!(f, "{}", L_INT),
+            Self::Float => write!(f, "{}", L_FLOAT),
+            Self::Map => write!(f, "{}", L_MAP),
+            Self::List => write!(f, "{}", L_LIST),
+            Self::Link => write!(f, "{}", L_LINK),
+        }
+    }
+}
+
+impl fmt::Display for AnyScalar {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match self {
+            Self::Bool(x) => write!(f, "\"{}\"", x),
+            Self::String(x) => write!(f, "\"{}\"", x),
+            Self::Bytes(_x) => todo!("literal bytes"), // write!(f, "{}", x),
+            Self::Int(x) => write!(f, "{}", x),
+            Self::Float(x) => write!(f, "{}", x),
+        }
+    }
+}
+
+impl fmt::Display for TypeBool {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{}", L_BOOL)
+    }
+}
+
+impl fmt::Display for TypeString {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{}", L_STRING)
+    }
+}
+
+impl fmt::Display for TypeBytes {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{}", self.representation)
+    }
+}
+
+impl fmt::Display for BytesRepresentation {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match self {
+            Self::Bytes(b) => write!(f, "{}", b),
+            Self::Advanced(_name) => todo!("advanced layout for bytes"),
+        }
+    }
+}
+
+impl fmt::Display for bytes_representation::Bytes {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{}", L_BYTES)
+    }
+}
+
+impl fmt::Display for TypeInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{}", L_INT)
+    }
+}
+
+impl fmt::Display for TypeFloat {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{}", L_FLOAT)
+    }
+}
+
+impl fmt::Display for TypeMap {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        if self.value_nullable {
+            write!(f, "{} ", L_NULLABLE)?;
+        }
+        write!(f, "{{{}:{}}}", self.key_type, self.value_type)
+
+        // TODO: handle self.representation
+    }
+}
+
+impl fmt::Display for TypeList {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        if self.value_nullable {
+            write!(f, "{} ", L_NULLABLE)?;
+        }
+        write!(f, "[{}]", self.value_type)
+
+        // TODO: handle self.representation
+    }
+}
+
+impl fmt::Display for TypeLink {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{}{}", L_LINK_REF, self.expected_type)
+    }
+}
+
+impl fmt::Display for TypeUnion {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{}", self.representation)
+    }
+}
+
+impl fmt::Display for UnionRepresentation {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match self {
+            Self::Kinded(x) => write!(f, "{}", x),
+            Self::Keyed(x) => write!(f, "{}", x),
+            Self::Envelope(x) => write!(f, "{}", x),
+            Self::Inline(x) => write!(f, "{}", x),
+            Self::BytePrefix(x) => write!(f, "{}", x),
+        }
+    }
+}
+
+impl fmt::Display for union_representation::Kinded {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{} {{", L_UNION)?;
+        for (kind, name) in &self.0 {
+            write!(f, "\n  | {} {}", name, kind)?;
+        }
+        if !self.0.is_empty() {
+            writeln!(f)?;
+        }
+        write!(f, "}} {} {}", L_REPRESENTATION, L_KINDED)
+    }
+}
+
+impl fmt::Display for union_representation::Keyed {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{} {{", L_UNION)?;
+        for (ty, name) in &self.0 {
+            write!(f, "\n  | {} \"{}\"", name, ty)?;
+        }
+        if !self.0.is_empty() {
+            writeln!(f)?;
+        }
+        write!(f, "}} {} {}", L_REPRESENTATION, L_KEYED)
+    }
+}
+
+impl fmt::Display for union_representation::Envelope {
+    fn fmt(&self, _f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        todo!()
+    }
+}
+
+impl fmt::Display for union_representation::Inline {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{} {{", L_UNION)?;
+        for (ty, name) in &self.discriminant_table {
+            write!(f, "\n  | {} \"{}\"", name, ty)?;
+        }
+        if !self.discriminant_table.is_empty() {
+            writeln!(f)?;
+        }
+        write!(
+            f,
+            "}} {} {} {{\n  {} \"{}\"\n}}",
+            L_REPRESENTATION, L_INLINE, L_DISCRIMINANT_KEY, self.discriminant_key
+        )
+    }
+}
+
+impl fmt::Display for union_representation::BytePrefix {
+    fn fmt(&self, _f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        todo!()
+    }
+}
+
+impl fmt::Display for TypeStruct {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match &self.representation {
+            StructRepresentation::Map(m) => {
+                write!(f, "{} {{", L_STRUCT)?;
+                for (name, val) in &self.fields {
+                    write!(f, "\n  {} {}", name, val)?;
+                    if let Some(details) = m.fields.as_ref().and_then(|f| f.get(name)) {
+                        write!(f, " (")?;
+                        if let Some(implicit) = &details.implicit {
+                            write!(f, "{} {}", L_IMPLICIT, implicit)?;
+                        }
+                        write!(f, ")")?;
+                    }
+                }
+                if !self.fields.is_empty() {
+                    writeln!(f)?;
+                }
+                write!(f, "}}")
+            }
+            StructRepresentation::Tuple(_) => todo!("struct tuple"),
+            StructRepresentation::StringPairs(_) => todo!("struct stringpairs"),
+            StructRepresentation::StringJoin(_) => todo!("struct stringjoin"),
+            StructRepresentation::ListPairs(_) => todo!("struct listpairs"),
+        }
+    }
+}
+
+impl fmt::Display for FieldName {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{}", self.0)
+    }
+}
+
+impl fmt::Display for StructField {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        if self.optional {
+            write!(f, "{} ", L_OPTIONAL)?;
+        }
+        if self.nullable {
+            write!(f, "{} ", L_NULLABLE)?;
+        }
+        write!(f, "{}", self.r#type)
+    }
+}
+
+impl fmt::Display for TypeTerm {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match self {
+            Self::TypeName(name) => write!(f, "{}", name),
+            Self::InlineDefn(inline) => write!(f, "{}", inline),
+        }
+    }
+}
+
+impl fmt::Display for InlineDefn {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match self {
+            Self::Map(map) => write!(f, "{}", map),
+            Self::List(list) => write!(f, "{}", list),
+        }
+    }
+}
+
+impl fmt::Display for TypeEnum {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{} {{", L_ENUM)?;
+        #[allow(clippy::for_kv_map)]
+        for (value, _null) in &self.members {
+            write!(f, "\n  | {}", value)?;
+        }
+        if !self.members.is_empty() {
+            writeln!(f)?;
+        }
+        write!(f, "}}")
+
+        // TODO: handle self.representation
+    }
+}
+
+impl fmt::Display for EnumValue {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{}", self.0)
+    }
+}
+
+impl fmt::Display for TypeCopy {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        write!(f, "{} {}", L_COPY, self.from_type)
+    }
+}
+
 peg::parser! {
     grammar schema_dsl() for str {
         rule _eof() -> () = ![_] { }
@@ -531,7 +881,7 @@ peg::parser! {
 
             TypeStruct { fields, representation }
         }
-        rule st_map_field() -> (FieldName, StructField, Option<struct_representation::MapFieldDetails>) = _ws1()* n:field_name() _ws1()+ f:struct_field() x:st_map_field_details()? _ws1()* _eol() { dbg!((n, f, x)) }
+        rule st_map_field() -> (FieldName, StructField, Option<struct_representation::MapFieldDetails>) = _ws1()* n:field_name() _ws1()+ f:struct_field() x:st_map_field_details()? _ws1()* _eol() { (n, f, x) }
         rule st_map_field_details() -> struct_representation::MapFieldDetails = _ws1()* "(" _ws1()* "implicit" _ws1()+ i:any_scalar()? _ws1()* ")" { struct_representation::MapFieldDetails { implicit: i, rename: None } }
         pub rule struct_model() -> TypeStruct = s:(
             st_map()
@@ -614,5 +964,16 @@ mod tests {
         with_settings!({sort_maps => true}, {
             assert_json_snapshot!(schema_schema())
         });
+    }
+
+    #[test]
+    fn schema_schema_roundtrips_through_parsing_and_display() {
+        let rendered = schema_schema().to_string();
+
+        for (n, line) in rendered.lines().enumerate() {
+            eprintln!("{}\t{}", n + 1, line);
+        }
+
+        assert_eq!(schema_schema(), schema_dsl::parse(&rendered).unwrap());
     }
 }

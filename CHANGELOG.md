@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Partial DSL renderer that can correctly display the schema-schema.
+
 ## [0.1.1]
 
 ### Added
