@@ -6,15 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.2.0] - 2020-12-30
 ### Added
 - Partial DSL renderer that can correctly display the schema-schema.
+- Initial generators and property-based tests for roundtripping schemas through their DSL and JSON forms.
+- Extensions to parser to support several schema forms which aren't demonstrated in the schema-schema.
+- Convenient cargo aliases to improve development and testing workflow.
 
-## [0.1.1]
+## Fixed
+- Innaccuracies in snapshot of the schema-schema parsed from DSL form and then rendered in JSON form.
 
+## [0.1.1] - 2020-12-28
 ### Added
 - Schema types based on submodule-pinned copy of IPDL's [schema-schema](./specs/schemas/schema-schema.ipldsch).
 - Partial DSL parser that can read the schema-schema.
 - Serde deserializers to read IPDL's [reified JSON form of the schema-schema](./specs/schemas/schema-schema.ipldsch.json) and a test verifying correspondence to parsed DSL form.
 
-[Unreleased]: https://github.com/mx00s/ipld-schema/compare/0.1.1...HEAD
+[Unreleased]: https://github.com/mx00s/ipld-schema/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/mx00s/ipld-schema/compare/0.1.1...0.2.0
 [0.1.1]: https://github.com/mx00s/ipld-schema/compare/b47846afc50ff594ed144197de35c81142b595bd...0.1.1

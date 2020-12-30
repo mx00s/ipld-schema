@@ -12,7 +12,7 @@
 - [ ] Reified Form
   - [x] Convert parsed schema-schema to its [reified JSON form](./specs/schemas/schema-schema.ipldsch.json)
   - [x] Convert reified form of the schema-schema back to its DSL representation (sans comments)
-  - [ ] Generate arbitrary IPLD schemas in reified form from the parsed schema-schema
+  - [x] Generate arbitrary IPLD schemas in reified form from the parsed schema-schema
   - [ ] Validate IPLD schema in reified form against the schema-schema and additional constraints (e.g. "rules around valid characters for type names")
   - [ ] Generate Rust types from a valid IPLD schema
   - [ ] Test generated IPLD schemas against implementations in other languages
