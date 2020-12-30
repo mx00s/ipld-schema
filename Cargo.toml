@@ -9,6 +9,12 @@ license = "MIT OR Apache-2.0"
 
 [features]
 fast-test = []
+build-binary = []
+
+[[bin]]
+name = "ipld-schema"
+path = "./src/cli.rs"
+required-features = ["build-binary"]
 
 [dependencies]
 peg = "0.6.3"

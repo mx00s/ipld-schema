@@ -2,3 +2,8 @@
 .cargo-ok
 Cargo.lock
 *~
+
+# cargo-tarpaulin outputs
+lcov.info
+tarpaulin-report.*
+cobertura.xml
