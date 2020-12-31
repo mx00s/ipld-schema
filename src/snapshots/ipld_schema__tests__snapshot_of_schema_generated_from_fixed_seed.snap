@@ -1,0 +1,864 @@
+---
+source: src/lib.rs
+expression: "schema::schema_dsl::parse(&String::from_utf8_lossy(&schema_buffer.into_inner())).unwrap()"
+---
+Schema {
+    types: SchemaMap(
+        {
+            TypeName(
+                "A__7vqw8__ixdl_b_0lx",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "Qv_pzc__41_x8n77u738h_0i_o5h",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "Ek7uwm0_s__7r0s_l_43g4c5x1f_7",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: StringPairs(
+                        StringPairs {
+                            inner_delim: "\u{5ee4c}z\'\u{1b422}\u{0}?I8\u{0}J\u{7f}\u{feff}\u{65b77}\r=õѨW\u{7f}?Þ$??\u{9b}le\u{ce102}",
+                            entry_delim: "=[=\u{dba2e}C\u{7}Ⱥ¥{==A&𭵡0\u{1b}\n¥%\u{11bbd}\u{4}$",
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "Ag1o33z__r__",
+            ): Int(
+                TypeInt,
+            ),
+            TypeName(
+                "As__t_1r_4g_25hnq_emdtc46_8_51m",
+            ): Float(
+                TypeFloat,
+            ),
+            TypeName(
+                "B7ih74dyq_hl_1k9__04x9x7",
+            ): Copy(
+                TypeCopy {
+                    from_type: TypeName(
+                        "N_g3_hx8x_2_1m__24_4__9uam3",
+                    ),
+                },
+            ),
+            TypeName(
+                "B_d86wd__glswr1v__t__j1_w2j9",
+            ): Union(
+                TypeUnion {
+                    representation: Envelope(
+                        Envelope {
+                            discriminant_key: "\u{7f}_2é\u{0}¥*🕴im7ȺU\u{1}Ѩ\u{e20cd}=\u{7f}\'¥%3",
+                            content_key: "@\\=\u{97}\n\u{75cc9}\u{d3d2e}\n<\u{7}@\u{76d95}\u{202e}�\u{1a}<Ѩ\\¬*C\n \u{d9215}\r\u{1}\u{7f}",
+                            discriminant_table: {
+                                "": TypeName(
+                                    "Z_1t_0",
+                                ),
+                                "\u{0}X`w霗?=𬥶c\\%\u{10591c}�/\u{15}%\u{16}$\u{60ab3}": TypeName(
+                                    "S9_jbi46b5___3_swe___og_z6",
+                                ),
+                                "\u{7}ÓÜ//`9\t�\u{f7f2}Ⱥ\u{feff}\u{f}\t\r\n?&": TypeName(
+                                    "L_5",
+                                ),
+                                "\txﭚ${v\u{feff}\rN": TypeName(
+                                    "Am__n_6_ie1848_",
+                                ),
+                                "\t\u{49fa0}\'\u{0}i�=\u{19}q": TypeName(
+                                    "L_v1x8_fjh1u",
+                                ),
+                                "\t\u{103bd9}\u{16}:%\u{1}$\u{1}\u{4}ZE\n\u{feff}}\\\u{100840}\t\u{c5049}QO=\u{1d}ù%*h\u{a4625}o": TypeName(
+                                    "U1_r652t_6__3mp6vr9n__290_s",
+                                ),
+                                "\n\u{8}\t:\u{101cb9}\u{518ba}\u{327be}?\tA菲?\u{96883}*{=$w\u{7f}$\u{8}`\u{929cf}-.\u{b}%=la\u{feff}": TypeName(
+                                    "T3p6_dw_e_",
+                                ),
+                                "\n\r\n\t\'\'@Ѩ..\u{0}/\u{5}sw%\u{7f}?r\u{df920}%\u{b}": TypeName(
+                                    "E_6zz4r165t6urh__5z",
+                                ),
+                                "\n\u{cccbd}\u{fe809}𦜳\u{b}¥/¥%ea$¼{{?O�\u{ed787}.\u{202e}R`\u{5ff25}\u{b}": TypeName(
+                                    "T5u3ch8ut72_c4gnj_2_88z817___6e7",
+                                ),
+                                "\u{b}\u{1d}%:\u{40299}\\줙\u{f6c5f}\u{7b30d}\u{1b}=\u{1}õ{\u{84e7f}\t\u{1b}\u{b71eb}?\u{c}\u{14}\u{43900}}e_U&S$\u{1b}": TypeName(
+                                    "T__yfq_2e8ktf_vow90c",
+                                ),
+                                "\r\u{202e}\u{6973b}\u{1b}?}\u{87bc3}?": TypeName(
+                                    "Czv8y9_z",
+                                ),
+                                "\u{13}x!< <�\r$.Ѩm\n]/S{.*Ѩ,XȺ{<\u{1b}\u{db540}<2/": TypeName(
+                                    "V0_6_5x3e94_4q__3d71_d__ient_4",
+                                ),
+                                "\u{13}\u{5d7cb}D\t>¥\\\u{101582}\'\u{19}\u{14a92}2{$": TypeName(
+                                    "S1_mj5d73gtqz_8",
+                                ),
+                                "\u{15}\t3Ѩ§¥Q,_{\u{feff}銺\u{7}�\u{f}\u{787d6}`\u{202e}én\u{5}ꔇ": TypeName(
+                                    "R_9_x8m_ed8dl83pd59sz_",
+                                ),
+                                "\u{1d}5W*🕴®Ý\\": TypeName(
+                                    "Wj810_5527__lc75fa6r5i6_3bm0s",
+                                ),
+                                "\u{1d}~$%fs%==\t\u{1a}\u{5}\u{feff}{%\u{1f}:I=Ѩ:d\tG\u{1b}ú": TypeName(
+                                    "Vbw942_b0_o_z_m___",
+                                ),
+                                "\u{1e}\rȺ`£\r\r#\\>\u{7d40e}\u{b}\u{9348e}?`\r%Ⱥÿ\'.g": TypeName(
+                                    "G_9_17g_27w3s77",
+                                ),
+                                "$U\u{14}": TypeName(
+                                    "Ix9iknuj_s_w6m1_237_e",
+                                ),
+                                "%%\u{e24f4}\n\r\u{cacae}<\u{11}\u{7221f}$\u{b}{t𥗈?\u{de7ed}\t\u{19}a\u{0}\u{94e71}": TypeName(
+                                    "Nz38_o_eac58__",
+                                ),
+                                "%7Ⱥ\u{b}3<.\u{15}�¥$\u{7}\u{1}l\u{b}.\u{1b}/\u{105a9}\u{4}\u{1d}&\u{10}\u{7f}": TypeName(
+                                    "V__mrw_t7_b_s1_5e__2j__55f",
+                                ),
+                                "%?N%\u{feff}\'\u{7f}\t\u{7f}Ѩ\u{19}:": TypeName(
+                                    "Zs44d_onvn35",
+                                ),
+                                "&\nM\\\'\u{96}1% \u{e}\u{11}1{\u{1b}\u{0}\u{11}*=.%:p`*\u{1d}": TypeName(
+                                    "R_s4fk4vj_",
+                                ),
+                                "&\n🕴\u{12}{�Ѩ\u{4d2b8}<dWȺ": TypeName(
+                                    "G_070_1_n6t_82bxa_",
+                                ),
+                                "\'\u{b}!\u{13}\u{5}`%\u{1e}^Ä~í\n{e\u{4d18b}Ⱥ&\u{7f}\u{10167f}\r<": TypeName(
+                                    "E1q___et_3a2iw_lw1__u_figq1az_",
+                                ),
+                                "\' ȺX¥\u{b}&\u{f52d9}:`?~!<\u{b}P.\u{b}¶0.\u{0}\u{be0dc}\u{9cb28}\r\u{feff}": TypeName(
+                                    "V_c5bc7a_",
+                                ),
+                                "\'.?¥ȺQ\u{7f}`Ѩ\\*\r0<": TypeName(
+                                    "X_2q9q_l8_b_p__8c2__l4o_",
+                                ),
+                                "*\u{7f}*${:{\u{7}\u{7f}:!%{/V": TypeName(
+                                    "D_9l1pu52_zid3p___fz___7phmz_",
+                                ),
+                                ".\t\u{b6192}\u{e0e94}\u{c}.\u{0}\u{66f9d}%*/.O<¥q@=\\𡝇\u{17}.@%\rQ<G!\u{10b6f7}": TypeName(
+                                    "Ux_8o___j_3_6vw___1j3cg19_kk1",
+                                ),
+                                ".:i\u{bf6aa}\u{d34f8} zȺ/\u{c38d2}\u{0}&Q\u{10731b}[et\u{1}\u{17}{&\u{7f}\t🕴\na": TypeName(
+                                    "Y7_r",
+                                ),
+                                "/🕴D\'/C9\\\u{202e}\u{f6446}\u{feff}:\'%:*{\u{68f07}L9\u{8b031}H$\u{15}\u{202e}\u{4d7e8}": TypeName(
+                                    "G8___2x62h83",
+                                ),
+                                ":{\u{feff}/\u{84}\u{202e}Z\u{1d}G.\\\u{d1e2a}\u{1a}\u{feff}¥\u{0}MX}`\u{f}=/\u{b}\u{a85e1}.\tÕ}": TypeName(
+                                    "V7l4_zzr__i1qxdmjr___y",
+                                ),
+                                ";*\'?x\u{b4f78}�.漿=/$<": TypeName(
+                                    "Npjc_0x_w_8__a__1",
+                                ),
+                                "<�\u{1b}\u{0}\'Ⱥ=\r\u{10e174}:@?\u{7f}=%\u{dea62}l\t\u{7}%\u{feff}\\!\u{16}Ⱥk\t\tȺѨ)\u{3}": TypeName(
+                                    "Q_xrj____l97e___4y889z____61i",
+                                ),
+                                "=\u{5}-\u{4b5e4}\u{72bbe}%!\u{e}gL\u{10df8a}\u{7f}\u{37db8}Q?\r\u{e}Y\u{18}¹\u{1e}\u{7e0c1}": TypeName(
+                                    "Ak7_405q_397_jdt3_u",
+                                ),
+                                "= E;\u{10}{\u{16}\u{15}🕴\u{1b}/I~\u{74ef5}\u{e6736}\u{feff}\u{c}6¥\u{a151a}\u{1a}$�\\?\\!\u{1b}�\\=": TypeName(
+                                    "D",
+                                ),
+                                ">=i_\u{c6069}\u{1efb2}\u{7f}`#¥v&{Ѩ&%\u{feff}\tU\u{0}𐋳\u{c}\u{1a}\r": TypeName(
+                                    "X1in0n_____poz_s_",
+                                ),
+                                "?\u{f1779}s/\u{103d8c}": TypeName(
+                                    "P_y7fsvzpi6lr",
+                                ),
+                                "D\'": TypeName(
+                                    "D_____0e_e_",
+                                ),
+                                "F/4;": TypeName(
+                                    "E_2fi_8w_63_5",
+                                ),
+                                "K\u{7f}*\u{90ec0}\u{b}浡\u{1e}\'\u{0}\u{feff}\u{de9d3}\u{ed034}\u{75fc4}/\u{81}¶\u{4bf94}\u{feff}\u{18}!\u{84}\t\\\u{b}xK\u{4d5f7}": TypeName(
+                                    "V_miihwti_px6gc_k_6_o____3t",
+                                ),
+                                "Næ\\\u{69296}%W\u{4515e}{🕴\\`9\nѨ\r$`𨄫=\u{a6ae7}": TypeName(
+                                    "Xtt2d5_nnqxrsb_5uppd",
+                                ),
+                                "P\u{7f}:\\ï$\u{1b}\u{0}?{= \u{11}ѨѨ\u{d1a81}\u{edd1b}\u{d54b5}\\l\u{94fd0}c": TypeName(
+                                    "Fh2pbkhvf___3_749gs42vj4j_c_1r_",
+                                ),
+                                "Xz\u{986b7}O/E/\u{43793}\u{d9b9b}\u{16}🕴)\u{84019}%*\u{16}\u{10}³9\u{7f}Pv/\u{1f}\u{d8ab6}G": TypeName(
+                                    "Flp7gy_q30_g5s__w_5l1s",
+                                ),
+                                "Z¥Ô\u{9f}s\u{0}:B$GÚ\'g(\u{202e}&\u{3}\t!Z": TypeName(
+                                    "Rw8sfqx__8l_9gv",
+                                ),
+                                "\\$\u{cbab8}O\u{72c31}/e\u{4ff51}%K\u{335ce}": TypeName(
+                                    "F_cvu889",
+                                ),
+                                "_": TypeName(
+                                    "H_b_s9_q3__s23fa1_5_gc_ka75iy8",
+                                ),
+                                "`c&\u{fcf81}\u{f4d7}U*P\u{1d}Ⱥ\u{1d}\u{89b0f}\t?l<{b\u{f0487}": TypeName(
+                                    "P_8___650552h440kn1egki2823ua28_d",
+                                ),
+                                "a$\n\u{b}\u{1d}\nä¥Ѩm/\u{3}\u{b}�TC1R": TypeName(
+                                    "Tguy6qw4_k8_c2_43ua6s_526_eebj",
+                                ),
+                                "b\u{f4d30}\n\u{103957}{\t\u{7f}\u{942b7}*\u{19}{𧋺\u{454e7}:`\u{31cf7}e:🕴%\u{0}dX<Ѩ\u{9f167}�.": TypeName(
+                                    "V1w007i5_223p79__b66sh2t3_v84b_",
+                                ),
+                                "g\u{70166}": TypeName(
+                                    "V66xk5kq02p1zinty4___9aa815t9_",
+                                ),
+                                "i\u{b}\\\u{88}Ѩ\u{10a642}🕴\u{b}𥽊~\u{0}5\t/\u{202e}\t\u{13a00}\'\u{5}T\'": TypeName(
+                                    "D_np7_l_988r__a25_5_8_",
+                                ),
+                                "\u{8d}\u{1b}🕴\\\u{5475f}Ⱥ\u{b}&\u{17}𪩖b": TypeName(
+                                    "C7nd_bvtd8_a_b_441v9vuks_2lc_48",
+                                ),
+                                "\u{9e}\u{dd5be}=5*\u{beef2}$\u{f09aa}¥🕴": TypeName(
+                                    "O1_w",
+                                ),
+                                "¥=\u{13}ë\u{b}?D.\u{1e}e\u{ad}~b+\u{1b}\u{1e}𩑭\u{40261}": TypeName(
+                                    "N7__x6j3__0_5m3_u_obq_f__4",
+                                ),
+                                "Õ\u{b2c1f}ú=\n\\¥\u{85}k\u{6b33c}\u{12}%\')o\u{b}\u{7f}RȺF\u{0}\u{c}\n�!~\u{d4a67}L]$": TypeName(
+                                    "Thqx53e_l",
+                                ),
+                                "Ⱥ\u{1e}$<": TypeName(
+                                    "J____6y_z7gp58_3vcoi8_i_29c",
+                                ),
+                                "ȺX\u{a29b4}D7ý*\'?f\u{4a0bf}¥\u{4}\u{1634e}w\u{feff}r�\r?j{{j!:Q.": TypeName(
+                                    "Aesz1pbi0e__",
+                                ),
+                                "Ⱥ\u{9750b}©\u{c}:[\'=\u{1}*\u{8e}\u{798f3}\u{b}\u{5485c}=\u{1b}R": TypeName(
+                                    "P4i",
+                                ),
+                                "Ѩ\n\u{feff}🕴": TypeName(
+                                    "K0mjczm0_8_g_j_4r94",
+                                ),
+                                "Ѩ\'": TypeName(
+                                    "F_a_xjy",
+                                ),
+                                "曏/.u�\n\u{202e}\u{f}&\u{2}\'\u{14}*\u{34d56}M/\u{8898f}\u{b}\u{a2855}?_": TypeName(
+                                    "Eip6_d_e23bw_18_7p5h",
+                                ),
+                                "\u{feff}Ⱥ=`𔕟\u{1d}\u{7ea3e}\u{0}4\u{f37ef}\u{b}*=\u{6}\u{1a}\u{7f}\u{202e}": TypeName(
+                                    "R7_oh5unv7_4e70i0be",
+                                ),
+                                "�\u{0}`\u{11}}\u{14a36}\u{be922}\u{3}\u{1b}:\u{19}u\\\u{43f4d}\t7\u{1030f8}\\": TypeName(
+                                    "Ras8",
+                                ),
+                                "�}\n<\u{16}\u{81632}🕴\u{1b}\u{35ea6}\u{a9079}\u{1b}t]Ѩ\u{cf7ea}": TypeName(
+                                    "N4ma4s609w36v5qz2m1",
+                                ),
+                                "�\u{a8455}:YN/�\u{17}\u{67afe}\u{c285e}\u{3ad69}:Ⱥ\u{7f}�Ⱥ\u{5}\u{1c}O:\u{c24f9}\u{0}": TypeName(
+                                    "C_n",
+                                ),
+                                "\u{16e01}\u{feff}\u{202e}\t?⸏/\u{b}=A@\u{b}:\u{0}\u{1b}<*\u{8}J": TypeName(
+                                    "Ph",
+                                ),
+                                "𥻦\u{6ac87}\\\r0\u{e3081}Ⱥ\u{1ac81}\u{7f}5Ѩ\u{1e}\u{cefe2}R\u{1d}\u{8b}\u{7f}\'=🕴pD\u{c7902}": TypeName(
+                                    "M8lw___69_b3se0m_uu0rtfbn_c0__iu_",
+                                ),
+                                "𮪃\'\u{0}?f/\'fÌ_.&%%\u{feff}\u{1f}": TypeName(
+                                    "Mk_j___q9ljn_s_6__ks___6_c8_1c4",
+                                ),
+                                "\u{47e38}\u{b}\u{8fd5d}%\u{e}.</<Ò&\n\u{b}\u{10}\u{1c}6\u{c4773}@�C\u{5a298}.u\u{3e120}t\u{e5d71}": TypeName(
+                                    "Y18_85i8225",
+                                ),
+                                "\u{51425}0@\u{d14dc}¥�": TypeName(
+                                    "Lw6__y_84nfmja5tp__",
+                                ),
+                                "\u{52a83}¥/&": TypeName(
+                                    "J_ky",
+                                ),
+                                "\u{57179}d\'": TypeName(
+                                    "Rn216p_tr4zh__86j4_2gn__z",
+                                ),
+                                "\u{576d5}\u{15}?\u{755f4}*_z\u{202e}.\u{3}\u{0}nWz\u{31876}": TypeName(
+                                    "Y__rgi7_6k_706en___k8_5b35ny14ld7",
+                                ),
+                                "\u{6c9f9}\u{9b04d}": TypeName(
+                                    "Crai1wwpa_7od",
+                                ),
+                                "\u{8a244}\'F\u{0}\u{0}i*\u{bb3b3}\u{b}\u{7f}🕴{ó\u{1b}\u{a71b0}\u{e8ff}\rJ/Ѩ¥\txȺ:Ѩ$\u{ba0ed}/": TypeName(
+                                    "J_kh0n18__it8fqfk1y5s8yt4__x9_",
+                                ),
+                                "\u{95027}": TypeName(
+                                    "Ase8sc8aif5_f_tyl",
+                                ),
+                                "\u{97195}�\u{13ab2}\u{978e3}\u{b}\u{feff}\\`x&\n:\t<": TypeName(
+                                    "H__k451_nu1sk_6__b0y7q_1y",
+                                ),
+                                "\u{a4dc1}\u{49b11}\u{f539d}\u{c}\u{10}\u{b}Ѩ\u{feff}/z\u{f}": TypeName(
+                                    "Dn_2nq3_0_h_mq1_2ss_",
+                                ),
+                                "\u{a91e5}`\u{89}\u{0}Ë\u{15}\u{57495}|\u{11}\u{aa607}\u{7f}-`\u{46675}\u{8}\u{0}\n\\\u{7}\u{7f}\u{202e}V<Ѩ ½": TypeName(
+                                    "P_9_4oi_x__f8_8__s__",
+                                ),
+                                "\u{c36eb}7./\u{f}\u{202e}\u{1b}À\u{0}\\\u{5b33d}\u{fdfff}\u{1e}\u{b}Ⱥ\u{92394}ßQ\u{5}D\u{33cc4}x\u{6e193}\tѨ\u{7f}\u{f}W": TypeName(
+                                    "P2nho_uc_4do_6_",
+                                ),
+                                "\u{f12c7}\u{7f}=3\u{b}.\u{202e}%": TypeName(
+                                    "Z_rxa_t01b_t6u5l3__1e_45_nz2_7_k8",
+                                ),
+                                "\u{102ce8}I\u{0}\t\r)&*\u{1b}=d$\u{202e}\u{f16e3}\u{202e}\u{0}<\\`\rp": TypeName(
+                                    "Zk9_8hfc__q8r44",
+                                ),
+                                "\u{10c051}쟅:o<\u{f1df5}\u{b}\tX¥\u{5}Ѩ%S🕴0": TypeName(
+                                    "Ou_uz_t91de0j_547ox",
+                                ),
+                            },
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "Cctk23_926tht_616ai9_9n",
+            ): Copy(
+                TypeCopy {
+                    from_type: TypeName(
+                        "Qup_h_86__e",
+                    ),
+                },
+            ),
+            TypeName(
+                "Cq2wd_w_9q__p33_0",
+            ): Link(
+                TypeLink {
+                    expected_type: "Hs_1b52d963a_1f7uic_c",
+                },
+            ),
+            TypeName(
+                "D83933_k8ldeb_j_lt42",
+            ): Copy(
+                TypeCopy {
+                    from_type: TypeName(
+                        "X8_",
+                    ),
+                },
+            ),
+            TypeName(
+                "D9__xx6_uuw_yj5i4_z303___708hj_p1",
+            ): Link(
+                TypeLink {
+                    expected_type: "Airp3__3_i_5_zjk3_a9_c61_o",
+                },
+            ),
+            TypeName(
+                "D___i20d__",
+            ): Bytes(
+                TypeBytes {
+                    representation: Bytes(
+                        Bytes,
+                    ),
+                },
+            ),
+            TypeName(
+                "E__",
+            ): Copy(
+                TypeCopy {
+                    from_type: TypeName(
+                        "Iw1cv_58avgz8_9j7m_0q_q694z",
+                    ),
+                },
+            ),
+            TypeName(
+                "Er4_s031",
+            ): Bytes(
+                TypeBytes {
+                    representation: Bytes(
+                        Bytes,
+                    ),
+                },
+            ),
+            TypeName(
+                "F____j__6_w0",
+            ): Copy(
+                TypeCopy {
+                    from_type: TypeName(
+                        "C6n__ad_q7___h1_v7_",
+                    ),
+                },
+            ),
+            TypeName(
+                "Gsbr7nkl_j",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "Gvy2_cc_6s_yqn3_ku_6a04zj__l",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "Bmxt_kce1k6__19___q8_p0646_1_w_",
+                        ),
+                    ),
+                    value_nullable: true,
+                    representation: ListPairs(
+                        ListPairs,
+                    ),
+                },
+            ),
+            TypeName(
+                "H_75v_w__",
+            ): Bool(
+                TypeBool,
+            ),
+            TypeName(
+                "He6_9y____59_3ol",
+            ): Link(
+                TypeLink {
+                    expected_type: "Z_vt_c8rvd_85jfkgs9__7t4qx_t_91y_",
+                },
+            ),
+            TypeName(
+                "I9c84__j_1js5b_pxe5360i_a_",
+            ): Float(
+                TypeFloat,
+            ),
+            TypeName(
+                "I_",
+            ): Int(
+                TypeInt,
+            ),
+            TypeName(
+                "Ig77gi72644__g42h_4b__ir__v_",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "O4t8y_8s3p3h",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "Jmp12yy_jv_wa",
+                        ),
+                    ),
+                    value_nullable: true,
+                    representation: ListPairs(
+                        ListPairs,
+                    ),
+                },
+            ),
+            TypeName(
+                "Ilk2_jdnz83c9144_s_7af7_42_",
+            ): String(
+                TypeString,
+            ),
+            TypeName(
+                "J4_0_7y",
+            ): List(
+                TypeList {
+                    value_type: TypeName(
+                        TypeName(
+                            "K3_jo_uo__hkh0gz_0_al_46h7_6w_7",
+                        ),
+                    ),
+                    value_nullable: true,
+                    representation: List(
+                        List,
+                    ),
+                },
+            ),
+            TypeName(
+                "K37_5_g_4bfk_ou7i_f__t",
+            ): List(
+                TypeList {
+                    value_type: TypeName(
+                        TypeName(
+                            "Sbnr",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: List(
+                        List,
+                    ),
+                },
+            ),
+            TypeName(
+                "K9ep7_6_gj82_s__vc8_i7qe_",
+            ): Float(
+                TypeFloat,
+            ),
+            TypeName(
+                "K_cz4_b7t_m0xs124_s3nm_k_5_8",
+            ): Copy(
+                TypeCopy {
+                    from_type: TypeName(
+                        "Jq8",
+                    ),
+                },
+            ),
+            TypeName(
+                "L2do_q502mf_t__m_dh____lj_m_vz21",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "S0__55",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "Ss7",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: StringPairs(
+                        StringPairs {
+                            inner_delim: "\u{1b}\u{a49fa}\u{15}I/ /\'\u{7f}\u{12}\u{202e}l:",
+                            entry_delim: "\u{feff}$.\u{1a}.=1`Ⱥe\r=\u{7}",
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "L_1591_2m7t0g_814p_k11_no4t_z_70w",
+            ): Float(
+                TypeFloat,
+            ),
+            TypeName(
+                "L_98v_gyd147skkw_8_3j_i_xit3",
+            ): Float(
+                TypeFloat,
+            ),
+            TypeName(
+                "Lz____",
+            ): Bool(
+                TypeBool,
+            ),
+            TypeName(
+                "M",
+            ): Float(
+                TypeFloat,
+            ),
+            TypeName(
+                "M__3_qk__5_b",
+            ): List(
+                TypeList {
+                    value_type: TypeName(
+                        TypeName(
+                            "N351",
+                        ),
+                    ),
+                    value_nullable: true,
+                    representation: List(
+                        List,
+                    ),
+                },
+            ),
+            TypeName(
+                "M___65_a_z7idj__00a",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "M5j",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "N5wa_bv__n1xc2_j0mdg_krhx_y4__5_",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: Map(
+                        Map,
+                    ),
+                },
+            ),
+            TypeName(
+                "Mggt82_0_9c_2_e3__379_qt_2_oq_b_",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "C7_8n_49g__evh_w",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "P_gd9t_nr4__ma",
+                        ),
+                    ),
+                    value_nullable: true,
+                    representation: Map(
+                        Map,
+                    ),
+                },
+            ),
+            TypeName(
+                "Mow_jt_k5rqzg36d_0p_5z1_950_fr_",
+            ): List(
+                TypeList {
+                    value_type: TypeName(
+                        TypeName(
+                            "Th06up3aqh41wpm__bdd__l_sa_5e2_",
+                        ),
+                    ),
+                    value_nullable: true,
+                    representation: List(
+                        List,
+                    ),
+                },
+            ),
+            TypeName(
+                "N8__3_4zvt_pf1r",
+            ): Copy(
+                TypeCopy {
+                    from_type: TypeName(
+                        "J_n_",
+                    ),
+                },
+            ),
+            TypeName(
+                "Nb68_84_4ywr4wajq3a09__p_ji___i",
+            ): List(
+                TypeList {
+                    value_type: TypeName(
+                        TypeName(
+                            "M_h__xtft_m90o_h_g7rx04__1_1q2t",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: List(
+                        List,
+                    ),
+                },
+            ),
+            TypeName(
+                "No__",
+            ): Float(
+                TypeFloat,
+            ),
+            TypeName(
+                "O_2_imt_rq08s__",
+            ): Link(
+                TypeLink {
+                    expected_type: "W",
+                },
+            ),
+            TypeName(
+                "Oju_i7o",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "B53u",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "L__15_ns3__rgn9",
+                        ),
+                    ),
+                    value_nullable: true,
+                    representation: StringPairs(
+                        StringPairs {
+                            inner_delim: "\u{af9a1}�+,�🕴*\'\u{8}$\u{afef9}\u{19}è+\u{12}\u{e}2",
+                            entry_delim: "Ä%C$Kh\u{983ef}j\r",
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "Oosd679g77w_g____w_yzdo__6u8_",
+            ): Union(
+                TypeUnion {
+                    representation: Kinded(
+                        Kinded(
+                            {
+                                Bool: TypeName(
+                                    "Uao_3x____208n4g2956y_3_htgk",
+                                ),
+                                String: TypeName(
+                                    "L1wl3gc0833490q___i5_",
+                                ),
+                                Bytes: TypeName(
+                                    "Nl_qac45308h",
+                                ),
+                                Int: TypeName(
+                                    "C0wfppq_d",
+                                ),
+                                Float: TypeName(
+                                    "Zql_089_",
+                                ),
+                                Map: TypeName(
+                                    "G5937o320x9__d_tq3l03__0g3b7o2_",
+                                ),
+                                List: TypeName(
+                                    "Fz6_j003__63xl4pp_9r7nkn7y",
+                                ),
+                                Link: TypeName(
+                                    "Io75t__o24zv2y__",
+                                ),
+                            },
+                        ),
+                    ),
+                },
+            ),
+            TypeName(
+                "P6z_mxqxt3_fm1_6jppc",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "Q_qb_8njq36_4ynmgc_p_l4",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "Acgpb",
+                        ),
+                    ),
+                    value_nullable: true,
+                    representation: Map(
+                        Map,
+                    ),
+                },
+            ),
+            TypeName(
+                "Prc26",
+            ): Copy(
+                TypeCopy {
+                    from_type: TypeName(
+                        "K___52e09ms9",
+                    ),
+                },
+            ),
+            TypeName(
+                "Q_a1o7g6_v3pi__mm_7c921_7v__3lw3l",
+            ): Int(
+                TypeInt,
+            ),
+            TypeName(
+                "R18__1",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "A_4_g18km_og__vpfx570",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "Z_61un7884__z3__i_1_6q3y_",
+                        ),
+                    ),
+                    value_nullable: false,
+                    representation: StringPairs(
+                        StringPairs {
+                            inner_delim: "<}\u{f}|/\u{ea42e}\u{7f}H\\Ѩ?\u{d054a}�<H¥=\u{202e}��\u{c}\'¥\u{7f}kñ\\\\$\u{202e},",
+                            entry_delim: "\n\u{10c0de}\u{f1ab9}\u{1b}\u{f}¥L$\n~\u{b}\u{73dcf}$//\u{7}&\u{c}\u{0}",
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "Ri_3a_7_c__8_1eq_95__2w__9j7",
+            ): Copy(
+                TypeCopy {
+                    from_type: TypeName(
+                        "K_tek__wl__5q_q69_n2p85k_18_____",
+                    ),
+                },
+            ),
+            TypeName(
+                "Su0cjvw_p3gy2518_m_9fy__dl9jf8am_",
+            ): Link(
+                TypeLink {
+                    expected_type: "V1__ay4__f",
+                },
+            ),
+            TypeName(
+                "T_83__xjcy_8ht4_9_iyy6_v",
+            ): Link(
+                TypeLink {
+                    expected_type: "Em_e",
+                },
+            ),
+            TypeName(
+                "U41_1_q7_e",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "Zn_n__pvm7_t7r5ya",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "V6_fgg0555_t7",
+                        ),
+                    ),
+                    value_nullable: true,
+                    representation: StringPairs(
+                        StringPairs {
+                            inner_delim: "\u{1a}\u{5}?\u{558e7}?.9Ѩr𤃹bx\u{0}Ⱥ\u{1b}:\u{8f}\u{1b}\u{c650f}🕴2&v\u{7f}�[f\u{1d}",
+                            entry_delim: "\n\u{1}E&$\u{7f}\u{202e}\r\rꧢ\\\u{b}\u{b84b6}ퟋ/\u{1b}g�\u{10}6",
+                        },
+                    ),
+                },
+            ),
+            TypeName(
+                "U_zh8trxap21npov9eg_36_8h_e24_g80",
+            ): Copy(
+                TypeCopy {
+                    from_type: TypeName(
+                        "F_c53__y03_n_0_5tc____c6_8f2kns0",
+                    ),
+                },
+            ),
+            TypeName(
+                "V_2_r71_",
+            ): Copy(
+                TypeCopy {
+                    from_type: TypeName(
+                        "Vbn_7_4___j_4n5o6",
+                    ),
+                },
+            ),
+            TypeName(
+                "W_9l_t_b826235a46___h1p9___8_",
+            ): String(
+                TypeString,
+            ),
+            TypeName(
+                "Wp655b___",
+            ): Float(
+                TypeFloat,
+            ),
+            TypeName(
+                "Wxg_s_r4t_2sm1",
+            ): Map(
+                TypeMap {
+                    key_type: TypeName(
+                        "M82g1v735_____rm__t4yenk",
+                    ),
+                    value_type: TypeName(
+                        TypeName(
+                            "T",
+                        ),
+                    ),
+                    value_nullable: true,
+                    representation: ListPairs(
+                        ListPairs,
+                    ),
+                },
+            ),
+            TypeName(
+                "X_qfubp8w45_8vg_74_zn7m_",
+            ): Link(
+                TypeLink {
+                    expected_type: "Qvui4l6_2_xf_zfg3r1nb",
+                },
+            ),
+            TypeName(
+                "Xc380_5u_7o354e__af_e49_ck6_81a_",
+            ): Bytes(
+                TypeBytes {
+                    representation: Bytes(
+                        Bytes,
+                    ),
+                },
+            ),
+            TypeName(
+                "Z17v01_j_918k_8_jt_9e_b_",
+            ): Int(
+                TypeInt,
+            ),
+            TypeName(
+                "Z6",
+            ): Bytes(
+                TypeBytes {
+                    representation: Bytes(
+                        Bytes,
+                    ),
+                },
+            ),
+        },
+    ),
+    advanced: AdvancedDataLayoutMap(
+        {},
+    ),
+}
