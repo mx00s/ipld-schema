@@ -2,5 +2,5 @@
 t = "test --features fast-test"
 cov = "tarpaulin --ignore-tests --out Lcov --features fast-test"
 ir = "insta review"
-r = "run --features build-binary --bin ipld-schema"
+r = "run --bin ipld-schema"
 w = "watch -c -x ir -x t -x clippy -x doc"

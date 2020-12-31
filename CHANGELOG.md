@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2020-12-31
+### Fixed
+- Enable `build-binary` feature by default so `cargo install ipld-schema` works without specifying it.
+
 ## [0.3.1] - 2020-12-31
 ### Fixed
 - (Hopefully) got `cargo install ipld-schema` to compile successfully.
@@ -35,7 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Partial DSL parser that can read the schema-schema.
 - Serde deserializers to read IPDL's [reified JSON form of the schema-schema](./specs/schemas/schema-schema.ipldsch.json) and a test verifying correspondence to parsed DSL form.
 
-[Unreleased]: https://github.com/mx00s/ipld-schema/compare/0.3.1...HEAD
+[Unreleased]: https://github.com/mx00s/ipld-schema/compare/0.3.2...HEAD
+[0.3.0]: https://github.com/mx00s/ipld-schema/compare/0.3.1...0.3.2
 [0.3.0]: https://github.com/mx00s/ipld-schema/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/mx00s/ipld-schema/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/mx00s/ipld-schema/compare/0.1.1...0.2.0

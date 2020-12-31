@@ -1,6 +1,6 @@
 [package]
 name = "ipld-schema"
-version = "0.3.1"
+version = "0.3.2"
 authors = ["Sage Mitchell <dev@mx00s.com>"]
 edition = "2018"
 description = "IPLD Schema tools"
@@ -8,6 +8,7 @@ repository = "https://github.com/mx00s/ipld-schema"
 license = "MIT OR Apache-2.0"
 
 [features]
+default = ["build-binary"]
 fast-test = []
 build-binary = ["structopt"]
 
