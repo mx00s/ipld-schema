@@ -1,0 +1,5 @@
+---
+source: src/lib.rs
+expression: "Seed::fixed()"
+---
+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=".parse::<Seed>().unwrap()

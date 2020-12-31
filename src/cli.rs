@@ -4,6 +4,5 @@ use ipld_schema::{run, Opt};
 use structopt::StructOpt;
 
 fn main() -> Result<(), ()> {
-    run(&Opt::from_args(), &mut std::io::stdout())?;
-    Ok(())
+    run(Opt::from_args(), &mut std::io::stdout())
 }

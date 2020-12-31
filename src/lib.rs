@@ -14,7 +14,7 @@ pub mod schema;
 
 // TODO: create a suitable error type
 
-#[derive(Clone, Copy, Debug, test_strategy::Arbitrary)]
+#[derive(Clone, Copy, test_strategy::Arbitrary)]
 pub struct Seed {
     inner: [u8; 32],
 }
@@ -58,28 +58,34 @@ impl fmt::Display for Seed {
     }
 }
 
+impl fmt::Debug for Seed {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
+        write!(f, "\"{}\".parse::<Seed>().unwrap()", self)
+    }
+}
+
 #[derive(Debug)]
 #[cfg_attr(feature = "build-binary", derive(StructOpt))]
 pub enum Command {
-    /// Validate IPLD schemas and data
+    /// Validates IPLD schemas and data
     Validate {
-        /// Path to IPLD schema file to validate.
+        /// Path to IPLD schema file to validate
         #[cfg_attr(feature = "build-binary", structopt(parse(from_os_str)))]
         schema_file: PathBuf,
 
-        /// Path to IPLD data file to validate against the specified schema.
+        /// Path to IPLD data file to validate against the specified schema
         #[cfg_attr(feature = "build-binary", structopt(parse(from_os_str)))]
         data_file: Option<PathBuf>,
     },
-    /// Generate IPLD schemas and data
+    /// Generates IPLD schemas and data
     Generate {
-        /// Explicitly seed the PRNG for deterministic output.
+        /// Explicitly seed the PRNG for deterministic output
         ///
         /// If unspecified, a random seed is used.
         #[cfg_attr(feature = "build-binary", structopt(long, parse(try_from_str)))]
         seed: Option<Seed>,
 
-        /// Path to IPLD schema file to use when generating data.
+        /// Path to IPLD schema file to use when generating data
         ///
         /// If unspecified, generates a schema instead of data.
         #[cfg_attr(feature = "build-binary", structopt(parse(from_os_str)))]
@@ -91,13 +97,30 @@ pub enum Command {
 #[cfg_attr(feature = "build-binary", derive(StructOpt))]
 #[cfg_attr(feature = "build-binary", structopt(name = env!("CARGO_PKG_NAME"), version = env!("CARGO_PKG_VERSION"), author = env!("CARGO_PKG_AUTHORS"), about = env!("CARGO_PKG_DESCRIPTION")))]
 pub struct Opt {
+    /// Dumps the arguments in roughly the form expected by the library's `run` function
+    #[structopt(long)]
+    dump_args: bool,
+
     #[cfg_attr(feature = "build-binary", structopt(subcommand))]
     cmd: Command,
 }
 
 #[allow(clippy::result_unit_err)]
 #[allow(clippy::missing_errors_doc)]
-pub fn run<W: std::io::Write>(opt: &Opt, output: &mut W) -> Result<(), ()> {
+pub fn run<W: std::io::Write>(opt: Opt, output: &mut W) -> Result<(), ()> {
+    if opt.dump_args {
+        writeln!(
+            output,
+            "{:#?}",
+            Opt {
+                dump_args: false,
+                ..opt
+            }
+        )
+        .unwrap();
+        return Ok(());
+    }
+
     match &opt.cmd {
         Command::Validate {
             schema_file,
@@ -155,6 +178,8 @@ where
         Some(schema) => generate_data(seed, schema, &mut out),
     }
 }
+
+// TODO: dump args in header comments
 
 fn generate_schema<W: std::io::Write>(seed: &Seed, out: &mut W) -> Result<(), ()> {
     let config = proptest::test_runner::Config::default();
@@ -226,12 +251,16 @@ mod tests {
     const CASES: u32 = 1000;
 
     #[cfg(feature = "fast-test")]
-    const MAX_SHRINK_ITERS: u32 = 2;
+    const MAX_SHRINK_ITERS: u32 = 1;
     #[cfg(not(feature = "fast-test"))]
     const MAX_SHRINK_ITERS: u32 = 10000;
 
-    #[cfg(not(feature = "fast-test"))]
     use insta::assert_debug_snapshot;
+
+    #[test]
+    fn snapshot_of_fixed_seed() {
+        assert_debug_snapshot!(Seed::fixed());
+    }
 
     #[test]
     #[cfg(not(feature = "fast-test"))]
@@ -240,7 +269,8 @@ mod tests {
 
         let mut schema_buffer = std::io::Cursor::new(vec![]);
         run(
-            &Opt {
+            Opt {
+                dump_args: false,
                 cmd: Command::Generate {
                     seed,
                     schema_file: None,
@@ -258,13 +288,14 @@ mod tests {
 
     #[test]
     #[cfg(not(feature = "fast-test"))]
-    #[ignore = "TODO: implement data generator based on a schema"]
+    #[ignore]
     fn snapshot_of_data_generated_from_fixed_seed() {
         let seed = Some(Seed::fixed());
 
         let mut schema_file = tempfile::NamedTempFile::new().unwrap();
         run(
-            &Opt {
+            Opt {
+                dump_args: false,
                 cmd: Command::Generate {
                     seed,
                     schema_file: None,
@@ -276,7 +307,8 @@ mod tests {
 
         let mut data_buffer = std::io::Cursor::new(vec![]);
         run(
-            &Opt {
+            Opt {
+                dump_args: false,
                 cmd: Command::Generate {
                     seed,
                     schema_file: Some(schema_file.path().into()),
@@ -296,11 +328,11 @@ mod tests {
     fn generated_schemas_are_valid(seed: Seed) {
         let mut schema_file = tempfile::NamedTempFile::new()?;
         run(
-            &Opt {
+            Opt {
+                dump_args: false,
                 cmd: Command::Generate {
                     seed: Some(seed),
                     schema_file: None,
-                    // schema_file: Some(schema_file.path().into())
                 },
             },
             &mut schema_file,
@@ -309,7 +341,8 @@ mod tests {
 
         let mut output = std::io::Cursor::new(vec![]);
         run(
-            &Opt {
+            Opt {
+                dump_args: false,
                 cmd: Command::Validate {
                     schema_file: schema_file.path().into(),
                     data_file: None,
@@ -325,11 +358,12 @@ mod tests {
     }
 
     #[proptest(cases = CASES, max_shrink_iters = MAX_SHRINK_ITERS)]
-    #[ignore = "TODO: implement data generator based on a schema"]
+    #[ignore]
     fn generated_data_are_valid(seed: Seed) {
         let mut schema_file = tempfile::NamedTempFile::new()?;
         run(
-            &Opt {
+            Opt {
+                dump_args: false,
                 cmd: Command::Generate {
                     seed: Some(seed),
                     schema_file: None,
@@ -341,7 +375,8 @@ mod tests {
 
         let mut data_file = tempfile::NamedTempFile::new()?;
         run(
-            &Opt {
+            Opt {
+                dump_args: false,
                 cmd: Command::Generate {
                     seed: Some(seed),
                     schema_file: Some(schema_file.path().into()),
@@ -353,7 +388,8 @@ mod tests {
 
         let mut output = std::io::Cursor::new(vec![]);
         run(
-            &Opt {
+            Opt {
+                dump_args: false,
                 cmd: Command::Validate {
                     schema_file: schema_file.path().into(),
                     data_file: Some(data_file.path().into()),

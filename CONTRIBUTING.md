@@ -47,28 +47,12 @@ cd ipld-schema
 cargo build
 ```
 
+Tests depend on the pinned gitsubmodule. Be sure to run the following before expecting `cargo test` to work.
+
+```shell
+git submodule update --init --recursive
+```
+
 ### Useful Commands
 
-- Run Clippy:
-
-  ```shell
-  cargo clippy --all
-  ```
-
-- Run all tests:
-
-  ```shell
-  cargo test --all
-  ```
-
-- Check to see if there are code formatting issues
-
-  ```shell
-  cargo fmt --all -- --check
-  ```
-
-- Format the code in the project
-
-  ```shell
-  cargo fmt --all
-  ```
+Consult the convenient cargo aliases in [`config.toml`](./.cargo/config.toml). During development/testing `cargo w` can watch for regressions. Before pushing changes `cargo p` can catch many regressions that may otherwise arise during continuous integration (CI).

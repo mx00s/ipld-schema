@@ -1,6 +1,25 @@
+# assumes for the following crates are installed using `cargo install ...`
+#
+# - `cargo-do`
+# - `cargo-insta`
+# - `cargo-tarpaulin`
+# - `cargo-watch`
+
 [alias]
+# run fast version of test suite (for longer version use plain `cargo test`)
 t = "test --features fast-test"
+
+# code coverage
 cov = "tarpaulin --ignore-tests --out Lcov --features fast-test"
+
+# review new/modified insta test snapshots
 ir = "insta review"
+
+# run the binary
 r = "run --bin ipld-schema"
+
+# watch test loop
 w = "watch -c -x ir -x t -x clippy -x doc"
+
+# pre-push (must clean before running clippy for reliable results)
+p = "do fmt,test,clean,clippy"

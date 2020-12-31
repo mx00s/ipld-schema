@@ -3,7 +3,7 @@ name = "ipld-schema"
 version = "0.3.2"
 authors = ["Sage Mitchell <dev@mx00s.com>"]
 edition = "2018"
-description = "IPLD Schema tools"
+description = "Generate and validate [IPLD Schemas](https://specs.ipld.io/schemas/) and the data they describe"
 repository = "https://github.com/mx00s/ipld-schema"
 license = "MIT OR Apache-2.0"
 
