@@ -40,8 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Serde deserializers to read IPDL's [reified JSON form of the schema-schema](./specs/schemas/schema-schema.ipldsch.json) and a test verifying correspondence to parsed DSL form.
 
 [Unreleased]: https://github.com/mx00s/ipld-schema/compare/0.3.2...HEAD
-[0.3.0]: https://github.com/mx00s/ipld-schema/compare/0.3.1...0.3.2
-[0.3.0]: https://github.com/mx00s/ipld-schema/compare/0.3.0...0.3.1
+[0.3.2]: https://github.com/mx00s/ipld-schema/compare/0.3.1...0.3.2
+[0.3.1]: https://github.com/mx00s/ipld-schema/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/mx00s/ipld-schema/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/mx00s/ipld-schema/compare/0.1.1...0.2.0
 [0.1.1]: https://github.com/mx00s/ipld-schema/compare/b47846afc50ff594ed144197de35c81142b595bd...0.1.1
