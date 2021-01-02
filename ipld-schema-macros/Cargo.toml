@@ -1,0 +1,26 @@
+[package]
+name = "ipld-schema-macros"
+version = "0.3.2"
+authors = ["Sage Mitchell <dev@mx00s.com>"]
+edition = "2018"
+description = "Macros for [IPLD Schemas](https://specs.ipld.io/schemas/)"
+repository = "https://github.com/mx00s/ipld-schema"
+license = "MIT OR Apache-2.0"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+ipld-schema-model = { path = "../ipld-schema-model" }
+proc-macro2 = "1.0.24"
+quote = "1.0.8"
+
+[dependencies.syn]
+version = "1.0.57"
+features = [
+    "parsing",
+    # "extra-traits",  # useful during development for Debug trait
+]
+
+[dev-dependencies]
+insta = "1.4.0"

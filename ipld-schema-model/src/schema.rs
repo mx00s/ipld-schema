@@ -1,8 +1,9 @@
 #![allow(dead_code)]
 
-use std::fmt;
+use std::{fmt, str::FromStr};
 
 use proptest::{collection::btree_map, prelude::*};
+use quote::{quote, ToTokens};
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "fast-test")]
@@ -24,39 +25,104 @@ struct Null;
 #[derive(
     Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, test_strategy::Arbitrary,
 )]
-pub(crate) struct TypeName(#[strategy("[A-Z][a-z0-9_]*")] String);
+pub struct TypeName(#[strategy("[A-Z][a-z0-9_]*")] String);
+
+impl ToTokens for TypeName {
+    fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
+        let name = proc_macro2::Ident::new(&self.0, proc_macro2::Span::mixed_site());
+        tokens.extend(vec![quote! { #name }])
+    }
+}
+
+impl ToTokens for TypeMap {
+    fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
+        todo!("type map to tokens")
+    }
+}
+
+impl ToTokens for TypeTerm {
+    fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
+        match self {
+            TypeTerm::TypeName(t) => t.to_tokens(tokens),
+            TypeTerm::InlineDefn(t) => t.to_tokens(tokens),
+        };
+    }
+}
+
+impl ToTokens for InlineDefn {
+    fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
+        todo!()
+    }
+}
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-struct SchemaMap(
+pub struct SchemaMap(
     // TODO: increase size range
     #[strategy(btree_map(any::<TypeName>(), any::<Type>(), DEFAULT_SIZE_RANGE))]
-    Map<TypeName, Type>,
+    pub  Map<TypeName, Type>,
 );
 
 #[derive(
     Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, test_strategy::Arbitrary,
 )]
-pub(crate) struct AdvancedDataLayoutName(String);
+pub struct AdvancedDataLayoutName(String);
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default, test_strategy::Arbitrary)]
-pub(crate) struct AdvancedDataLayoutMap(
-    #[strategy(Just(Map::new()))] Map<AdvancedDataLayoutName, AdvancedDataLayout>,
+pub struct AdvancedDataLayoutMap(
+    #[strategy(Just(Map::new()))] pub Map<AdvancedDataLayoutName, AdvancedDataLayout>,
 );
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[derive(test_strategy::Arbitrary)]
-pub(crate) struct Schema {
-    types: SchemaMap,
+pub struct Schema {
+    pub types: SchemaMap,
     #[serde(default, skip_serializing_if = "is_default")]
-    advanced: AdvancedDataLayoutMap,
+    pub advanced: AdvancedDataLayoutMap,
+}
+
+impl Schema {
+    fn schema_schema() -> Self {
+        std::include_str!("../../specs/schemas/schema-schema.ipldsch")
+            .parse()
+            .unwrap()
+    }
+
+    pub fn from_seed(seed: [u8; 32]) -> Self {
+        let config = proptest::test_runner::Config::default();
+        let rng = proptest::test_runner::TestRng::from_seed(
+            proptest::test_runner::RngAlgorithm::ChaCha,
+            &seed,
+        );
+        let mut runner = proptest::test_runner::TestRunner::new_with_rng(config, rng);
+
+        Self::arbitrary().new_tree(&mut runner).unwrap().current()
+    }
+}
+
+impl FromStr for Schema {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        schema_dsl::parse(s).or(Err(()))
+    }
+}
+
+impl syn::parse::Parse for Schema {
+    fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
+        dbg!(&input);
+        // TODO: try to convert input parse stream into schema
+
+        // for now returning a fixed schema for testing purposes
+        Ok(Self::schema_schema())
+    }
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(tag = "kind", rename_all = "lowercase")]
 #[derive(test_strategy::Arbitrary)]
 // TODO: can't handle some variants until fields referred to by representation exist and field orders matches set of fields
-pub(crate) enum Type {
+pub enum Type {
     Bool(TypeBool),
     String(TypeString),
     Bytes(TypeBytes),
@@ -77,7 +143,7 @@ pub(crate) enum Type {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "lowercase")]
 #[derive(test_strategy::Arbitrary)]
-pub(crate) enum TypeKind {
+pub enum TypeKind {
     Bool,
     String,
     Bytes,
@@ -95,7 +161,7 @@ pub(crate) enum TypeKind {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(rename_all = "lowercase")]
 #[derive(test_strategy::Arbitrary)]
-pub(crate) enum RepresentationKind {
+pub enum RepresentationKind {
     Bool,
     String,
     Bytes,
@@ -109,7 +175,7 @@ pub(crate) enum RepresentationKind {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(untagged)]
 #[derive(test_strategy::Arbitrary)]
-pub(crate) enum AnyScalar {
+pub enum AnyScalar {
     Bool(bool),
     String(String),
     Bytes(Vec<u8>),
@@ -118,16 +184,16 @@ pub(crate) enum AnyScalar {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-struct AdvancedDataLayout;
+pub struct AdvancedDataLayout;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-pub(crate) struct TypeBool;
+pub struct TypeBool;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-pub(crate) struct TypeString;
+pub struct TypeString;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-pub(crate) struct TypeBytes {
+pub struct TypeBytes {
     representation: BytesRepresentation,
 }
 
@@ -145,7 +211,7 @@ mod bytes_representation {
     use serde::{Deserialize, Serialize};
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-    pub(crate) struct Bytes;
+    pub struct Bytes;
 }
 
 impl Default for BytesRepresentation {
@@ -155,10 +221,10 @@ impl Default for BytesRepresentation {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-pub(crate) struct TypeInt;
+pub struct TypeInt;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-pub(crate) struct TypeFloat;
+pub struct TypeFloat;
 
 fn is_default<D: Default + PartialEq>(d: &D) -> bool {
     *d == D::default()
@@ -167,23 +233,23 @@ fn is_default<D: Default + PartialEq>(d: &D) -> bool {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[derive(test_strategy::Arbitrary)]
-pub(crate) struct TypeMap {
-    key_type: TypeName,
+pub struct TypeMap {
+    pub key_type: TypeName,
 
-    value_type: TypeTerm,
-
-    #[serde(default, skip_serializing_if = "is_default")]
-    value_nullable: bool,
+    pub value_type: TypeTerm,
 
     #[serde(default, skip_serializing_if = "is_default")]
-    representation: MapRepresentation,
+    pub value_nullable: bool,
+
+    #[serde(default, skip_serializing_if = "is_default")]
+    pub representation: MapRepresentation,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "lowercase")]
 #[derive(test_strategy::Arbitrary)]
 // TODO: generate all variants
-enum MapRepresentation {
+pub enum MapRepresentation {
     Map(map_representation::Map),
     StringPairs(map_representation::StringPairs),
     ListPairs(map_representation::ListPairs),
@@ -195,21 +261,21 @@ mod map_representation {
     use serde::{Deserialize, Serialize};
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-    pub(crate) struct Map;
+    pub struct Map;
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
     #[serde(rename_all = "camelCase")]
     #[derive(test_strategy::Arbitrary)]
-    pub(crate) struct StringPairs {
+    pub struct StringPairs {
         #[strategy("[^\"]+")]
-        pub(crate) inner_delim: String,
+        pub inner_delim: String,
 
         #[strategy("[^\"]+")]
-        pub(crate) entry_delim: String,
+        pub entry_delim: String,
     }
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-    pub(crate) struct ListPairs;
+    pub struct ListPairs;
 }
 
 impl Default for MapRepresentation {
@@ -221,7 +287,7 @@ impl Default for MapRepresentation {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[derive(test_strategy::Arbitrary)]
-pub(crate) struct TypeList {
+pub struct TypeList {
     value_type: TypeTerm,
 
     #[serde(default, skip_serializing_if = "is_default")]
@@ -242,7 +308,7 @@ mod list_representation {
     use serde::{Deserialize, Serialize};
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-    pub(crate) struct List;
+    pub struct List;
 }
 
 impl Default for ListRepresentation {
@@ -254,7 +320,7 @@ impl Default for ListRepresentation {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[derive(test_strategy::Arbitrary)]
-pub(crate) struct TypeLink {
+pub struct TypeLink {
     #[strategy("[A-Z][a-z0-9_]*")]
     expected_type: String,
 }
@@ -270,14 +336,14 @@ impl Default for TypeLink {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[derive(test_strategy::Arbitrary)]
-pub(crate) struct TypeUnion {
-    representation: UnionRepresentation,
+pub struct TypeUnion {
+    pub representation: UnionRepresentation,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "lowercase")]
 #[derive(test_strategy::Arbitrary)]
-enum UnionRepresentation {
+pub enum UnionRepresentation {
     Kinded(union_representation::Kinded),
     Keyed(union_representation::Keyed),
     Envelope(union_representation::Envelope),
@@ -291,81 +357,81 @@ mod union_representation {
     use serde::{Deserialize, Serialize};
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-    pub(crate) struct Kinded(pub(crate) Map<RepresentationKind, TypeName>);
+    pub struct Kinded(pub Map<RepresentationKind, TypeName>);
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-    pub(crate) struct Keyed(
+    pub struct Keyed(
         #[strategy(btree_map("[^\"]*", any::<TypeName>(), DEFAULT_SIZE_RANGE))]
-        pub(crate)  Map<String, TypeName>,
+        pub  Map<String, TypeName>,
     );
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
     #[serde(rename_all = "camelCase")]
     #[derive(test_strategy::Arbitrary)]
-    pub(crate) struct Envelope {
+    pub struct Envelope {
         #[strategy("[^\"]*")]
-        pub(crate) discriminant_key: String,
+        pub discriminant_key: String,
 
         #[strategy("[^\"]*")]
-        pub(crate) content_key: String,
+        pub content_key: String,
 
         #[strategy(btree_map("[^\"]*", any::<TypeName>(), DEFAULT_SIZE_RANGE))]
-        pub(crate) discriminant_table: Map<String, TypeName>,
+        pub discriminant_table: Map<String, TypeName>,
     }
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
     #[serde(rename_all = "camelCase")]
     #[derive(test_strategy::Arbitrary)]
-    pub(crate) struct Inline {
+    pub struct Inline {
         #[strategy("[^\"]*")]
-        pub(crate) discriminant_key: String,
+        pub discriminant_key: String,
 
         #[strategy(btree_map("[^\"]*", any::<TypeName>(), DEFAULT_SIZE_RANGE))]
-        pub(crate) discriminant_table: Map<String, TypeName>,
+        pub discriminant_table: Map<String, TypeName>,
     }
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
     #[serde(rename_all = "camelCase")]
     #[derive(test_strategy::Arbitrary)]
-    pub(crate) struct BytePrefix {
+    pub struct BytePrefix {
         #[strategy(btree_map(any::<TypeName>(), any::<u8>(), DEFAULT_SIZE_RANGE))]
-        pub(crate) discriminant_table: Map<TypeName, u8>,
+        pub discriminant_table: Map<TypeName, u8>,
     }
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[derive(test_strategy::Arbitrary)]
-pub(crate) struct TypeStruct {
+pub struct TypeStruct {
     // TODO: increase size range
     #[strategy(btree_map(any::<FieldName>(), any::<StructField>(), DEFAULT_SIZE_RANGE))]
-    fields: Map<FieldName, StructField>,
-    representation: StructRepresentation,
+    pub fields: Map<FieldName, StructField>,
+    pub representation: StructRepresentation,
 }
 
 #[derive(
     Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, test_strategy::Arbitrary,
 )]
-pub(crate) struct FieldName(#[strategy("[a-zA-Z0-9_]+")] String);
+pub struct FieldName(#[strategy("[a-zA-Z0-9_]+")] String);
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[derive(test_strategy::Arbitrary)]
-struct StructField {
-    r#type: TypeTerm,
+pub struct StructField {
+    pub r#type: TypeTerm,
 
     #[serde(default, skip_serializing_if = "is_default")]
-    optional: bool,
+    pub optional: bool,
 
     #[serde(default, skip_serializing_if = "is_default")]
-    nullable: bool,
+    pub nullable: bool,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(untagged)]
 #[derive(test_strategy::Arbitrary)]
 // TODO: allow all variants; may require proptest's prop_recursive strategy
-pub(crate) enum TypeTerm {
+pub enum TypeTerm {
     TypeName(TypeName),
     #[weight(0)]
     InlineDefn(Box<InlineDefn>),
@@ -374,7 +440,7 @@ pub(crate) enum TypeTerm {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(tag = "kind", rename_all = "lowercase")]
 #[derive(test_strategy::Arbitrary)]
-pub(crate) enum InlineDefn {
+pub enum InlineDefn {
     Map(TypeMap),
     List(TypeList),
 }
@@ -384,7 +450,7 @@ pub(crate) enum InlineDefn {
 #[derive(test_strategy::Arbitrary)]
 // TODO: generate all variants
 // TODO: all FieldNames generated here should correspond to one of TypeStruct's fields
-enum StructRepresentation {
+pub enum StructRepresentation {
     Map(struct_representation::Map),
     Tuple(struct_representation::Tuple),
     StringPairs(struct_representation::StringPairs),
@@ -395,7 +461,7 @@ enum StructRepresentation {
     ListPairs(struct_representation::ListPairs),
 }
 
-mod struct_representation {
+pub mod struct_representation {
     use super::{AnyScalar, FieldName};
     use serde::{Deserialize, Serialize};
 
@@ -405,51 +471,51 @@ mod struct_representation {
     #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
     #[serde(rename_all = "camelCase")]
     #[derive(test_strategy::Arbitrary)]
-    pub(crate) struct Map {
+    pub struct Map {
         #[serde(default)]
         #[strategy(btree_map(any::<FieldName>(), any::<MapFieldDetails>(), DEFAULT_SIZE_RANGE))]
-        pub(crate) fields: super::Map<FieldName, MapFieldDetails>,
+        pub fields: super::Map<FieldName, MapFieldDetails>,
     }
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
     #[serde(rename_all = "camelCase")]
     #[derive(test_strategy::Arbitrary)]
-    pub(crate) struct MapFieldDetails {
-        pub(crate) rename: Option<String>,
-        pub(crate) implicit: Option<AnyScalar>,
+    pub struct MapFieldDetails {
+        pub rename: Option<String>,
+        pub implicit: Option<AnyScalar>,
     }
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
     #[serde(rename_all = "camelCase")]
     #[derive(test_strategy::Arbitrary)]
-    pub(crate) struct Tuple {
+    pub struct Tuple {
         // TODO: remove Option
-        pub(crate) field_order: Option<Vec<FieldName>>,
+        pub field_order: Option<Vec<FieldName>>,
     }
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
     #[serde(rename_all = "camelCase")]
     #[derive(test_strategy::Arbitrary)]
-    pub(crate) struct StringPairs {
+    pub struct StringPairs {
         #[strategy("[^\"]+")]
-        pub(crate) inner_delim: String,
+        pub inner_delim: String,
 
         #[strategy("[^\"]+")]
-        pub(crate) entry_delim: String,
+        pub entry_delim: String,
     }
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
     #[serde(rename_all = "camelCase")]
     #[derive(test_strategy::Arbitrary)]
-    pub(crate) struct StringJoin {
+    pub struct StringJoin {
         #[strategy("[^\"]+")]
-        pub(crate) join: String,
+        pub join: String,
 
-        pub(crate) field_order: Vec<FieldName>,
+        pub field_order: Vec<FieldName>,
     }
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-    pub(crate) struct ListPairs;
+    pub struct ListPairs;
 }
 
 impl Default for StructRepresentation {
@@ -459,7 +525,7 @@ impl Default for StructRepresentation {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-pub(crate) struct TypeEnum {
+pub struct TypeEnum {
     #[strategy(btree_map(any::<EnumValue>(), any::<Null>(), DEFAULT_SIZE_RANGE))]
     members: Map<EnumValue, Null>,
     representation: EnumRepresentation,
@@ -468,7 +534,7 @@ pub(crate) struct TypeEnum {
 #[derive(
     Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, test_strategy::Arbitrary,
 )]
-pub(crate) struct EnumValue(#[strategy("[a-z0-9_]+")] String);
+pub struct EnumValue(#[strategy("[a-z0-9_]+")] String);
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "lowercase")]
@@ -485,13 +551,13 @@ mod enum_representation {
     use serde::{Deserialize, Serialize};
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default, test_strategy::Arbitrary)]
-    pub(crate) struct String(
+    pub struct String(
         #[strategy(btree_map(any::<EnumValue>(), "[^\"]*", DEFAULT_SIZE_RANGE))]
         Map<EnumValue, std::string::String>,
     );
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default, test_strategy::Arbitrary)]
-    pub(crate) struct Int(
+    pub struct Int(
         #[strategy(btree_map(any::<EnumValue>(), any::<Int>(), DEFAULT_SIZE_RANGE))]
         Map<EnumValue, Int>,
     );
@@ -504,7 +570,7 @@ impl Default for EnumRepresentation {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-pub(crate) struct TypeCopy {
+pub struct TypeCopy {
     from_type: TypeName,
 }
 
@@ -964,7 +1030,7 @@ impl fmt::Display for TypeCopy {
 }
 
 peg::parser! {
-    pub(crate) grammar schema_dsl() for str {
+    pub grammar schema_dsl() for str {
         rule _eof() -> () = ![_] { }
         rule _eol() -> () = "\n" / "\r\n" { }
         rule _ws1() -> () = " " / "\t" { }
@@ -978,7 +1044,7 @@ peg::parser! {
         rule schema_map() -> SchemaMap = _ws_block() decls:(type_decl() ** _ws_block()) _ws_block() _eof() { SchemaMap(decls.into_iter().collect()) }
 
         // TODO: `advanced`
-        pub(crate) rule parse() -> Schema = types:schema_map() { Schema { types, advanced: AdvancedDataLayoutMap::default() } }
+        pub rule parse() -> Schema = types:schema_map() { Schema { types, advanced: AdvancedDataLayoutMap::default() } }
 
         rule m_map() -> TypeMap
             = nil:("nullable" _ws1()+)? "{" _ws1()* n:type_name() _ws1()* ":" _ws1()* t:type_term() "}"
@@ -1047,7 +1113,7 @@ peg::parser! {
             t_enum() /
             t_copy()
         ) { t }
-        pub(crate) rule schema_type() -> Type = t:r#type() { t }
+        pub rule schema_type() -> Type = t:r#type() { t }
 
 
         rule union_representation() -> UnionRepresentation = ur:(
@@ -1104,7 +1170,7 @@ peg::parser! {
         ) { a }
 
 
-        pub(crate) rule field_name() -> FieldName = cs:$((['A'..='Z'] / ['a'..='z'] / ['0'..='9'] / "_")+) { FieldName(cs.to_string()) }
+        pub rule field_name() -> FieldName = cs:$((['A'..='Z'] / ['a'..='z'] / ['0'..='9'] / "_")+) { FieldName(cs.to_string()) }
         rule quoted_field_name() -> FieldName = "\"" f:field_name() "\"" { f }
         // TODO: support different ordering of optional and nullable
         rule struct_field() -> StructField = o:("optional" _ws1()+)? n:("nullable" _ws1()+)? t:type_term() { StructField { r#type: t, optional: o.is_some(), nullable: n.is_some() } }
@@ -1113,7 +1179,7 @@ peg::parser! {
         rule id_map() -> InlineDefn = m:type_map() { InlineDefn::Map(m) }
         rule id_list() -> InlineDefn = l:type_list() { InlineDefn::List(l) }
         rule tt_inline_defn() -> TypeTerm = i:(id_map() / id_list()) { TypeTerm::InlineDefn(Box::new(i)) }
-        pub(crate) rule type_term() -> TypeTerm = tt:(tt_type_name() / tt_inline_defn()) { tt }
+        pub rule type_term() -> TypeTerm = tt:(tt_type_name() / tt_inline_defn()) { tt }
 
         rule st_map() -> TypeStruct = "struct" _ws1()* "{" _ws_block() fs:(st_map_field()*) _ws1()* "}" {
             let fields = fs.iter().cloned().map(|(f, s, _)| (f, s)).collect();
@@ -1176,7 +1242,7 @@ peg::parser! {
             }
         }
 
-        pub(crate) rule struct_model() -> TypeStruct = s:(
+        pub rule struct_model() -> TypeStruct = s:(
             st_tuple() /
             st_stringpairs() /
             st_stringjoin() /
@@ -1185,7 +1251,7 @@ peg::parser! {
         ) { s }
 
 
-        pub(crate) rule enum_value() -> EnumValue = cs:$((['A'..='Z'] / ['a'..='z'] / ['0'..='9'] / "_")+) { EnumValue(cs.to_string()) }
+        pub rule enum_value() -> EnumValue = cs:$((['A'..='Z'] / ['a'..='z'] / ['0'..='9'] / "_")+) { EnumValue(cs.to_string()) }
         rule enum_member() -> EnumValue = _ws1()* "|" _ws1()* ev:enum_value() _ws1()* _eol() { ev }
 
         rule type_decl() -> (TypeName, Type) = "type" _ws1()+ n:type_name() _ws1()+ t:r#type() (_eol() / _eof()) { (n, t) }
@@ -1212,13 +1278,8 @@ mod tests {
     #[cfg(not(feature = "fast-test"))]
     const MAX_SHRINK_ITERS: u32 = 10000;
 
-    fn schema_schema() -> Schema {
-        schema_dsl::parse(&read_to_string("./specs/schemas/schema-schema.ipldsch").unwrap())
-            .unwrap()
-    }
-
     fn schema_schema_json() -> String {
-        read_to_string("./specs/schemas/schema-schema.ipldsch.json").unwrap()
+        read_to_string("../specs/schemas/schema-schema.ipldsch.json").unwrap()
     }
 
     fn schema_roundtrips_through_json(schema: &Schema) {
@@ -1240,13 +1301,13 @@ mod tests {
 
     #[test]
     fn snapshot_of_parsed_schema_schema() {
-        assert_debug_snapshot!(schema_schema());
+        assert_debug_snapshot!(Schema::schema_schema());
     }
 
     #[test]
     fn snapshot_of_reified_json_form_of_schema_schema() {
         with_settings!({sort_maps => true}, {
-            assert_json_snapshot!(schema_schema())
+            assert_json_snapshot!(Schema::schema_schema())
         });
     }
 
@@ -1265,14 +1326,14 @@ mod tests {
     #[test]
     fn reified_form_of_schema_schema_matches_parsed_dsl_form() {
         assert_eq!(
-            schema_schema(),
+            Schema::schema_schema(),
             serde_json::from_str(&schema_schema_json()).unwrap()
         );
     }
 
     #[test]
     fn schema_schema_roundtrips_through_parsing_and_display() {
-        schema_roundtrips_through_dsl(&schema_schema());
+        schema_roundtrips_through_dsl(&Schema::schema_schema());
     }
 
     #[proptest(cases = CASES, max_shrink_iters = MAX_SHRINK_ITERS)]

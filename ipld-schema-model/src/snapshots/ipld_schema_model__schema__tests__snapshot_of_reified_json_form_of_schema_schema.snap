@@ -1,6 +1,6 @@
 ---
 source: src/schema.rs
-expression: schema_schema()
+expression: "Schema::schema_schema()"
 ---
 {
   "types": {

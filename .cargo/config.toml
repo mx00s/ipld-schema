@@ -6,11 +6,15 @@
 # - `cargo-watch`
 
 [alias]
-# run fast version of test suite (for longer version use plain `cargo test`)
-t = "test --features fast-test"
+# run fast version of test suites
+t = "do t-model,t-macros,t-schema"
+t-model = "test --manifest-path ./ipld-schema-model/Cargo.toml --features fast-test"
+t-macros = "test --manifest-path ./ipld-schema-macros/Cargo.toml"
+t-schema = "test --manifest-path ./ipld-schema/Cargo.toml --features fast-test"
 
 # code coverage
-cov = "tarpaulin --ignore-tests --out Lcov --features fast-test"
+# (manually keep in sync with `./.gitlab/workflows/ci.yml`'s coverage job)
+cov = "tarpaulin --ignore-tests --timeout 600 --out Lcov"
 
 # review new/modified insta test snapshots
 ir = "insta review"

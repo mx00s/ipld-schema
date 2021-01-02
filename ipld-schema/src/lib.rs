@@ -1,20 +1,23 @@
 #![deny(clippy::all)]
 #![deny(clippy::pedantic)]
 
-use std::{convert::TryInto, fmt, path::PathBuf, str::FromStr};
+#[cfg(test)]
+mod macro_test;
 
-use proptest::{arbitrary::Arbitrary, strategy::Strategy};
+use std::{convert::TryInto, fmt, path::PathBuf, str::FromStr};
 
 #[cfg(feature = "build-binary")]
 use structopt::StructOpt;
 
-pub mod schema;
+pub use ipld_schema_model::schema;
 
 // TODO: clean up unwraps
 
 // TODO: create a suitable error type
 
-#[derive(Clone, Copy, test_strategy::Arbitrary)]
+// TODO: switch to a HTTP/URI-safe encoding of base64 strings
+
+#[derive(Clone, Copy)]
 pub struct Seed {
     inner: [u8; 32],
 }
@@ -99,10 +102,10 @@ pub enum Command {
 pub struct Opt {
     /// Dumps the arguments in roughly the form expected by the library's `run` function
     #[structopt(long)]
-    dump_args: bool,
+    pub dump_args: bool,
 
     #[cfg_attr(feature = "build-binary", structopt(subcommand))]
-    cmd: Command,
+    pub cmd: Command,
 }
 
 #[allow(clippy::result_unit_err)]
@@ -147,7 +150,10 @@ fn validate_schema<P: AsRef<std::path::Path> + std::fmt::Debug, W: std::io::Writ
     schema_file: &P,
     _out: &mut W,
 ) -> Result<(), ()> {
-    schema::schema_dsl::parse(&std::fs::read_to_string(schema_file).unwrap()).unwrap();
+    std::fs::read_to_string(schema_file)
+        .unwrap()
+        .parse::<schema::Schema>()
+        .unwrap();
     // TODO: write
     Ok(())
 }
@@ -182,17 +188,7 @@ where
 // TODO: dump args in header comments
 
 fn generate_schema<W: std::io::Write>(seed: &Seed, out: &mut W) -> Result<(), ()> {
-    let config = proptest::test_runner::Config::default();
-    let rng = proptest::test_runner::TestRng::from_seed(
-        proptest::test_runner::RngAlgorithm::ChaCha,
-        &seed.inner,
-    );
-    let mut runner = proptest::test_runner::TestRunner::new_with_rng(config, rng);
-
-    let schema = schema::Schema::arbitrary()
-        .new_tree(&mut runner)
-        .unwrap()
-        .current();
+    let schema = schema::Schema::from_seed(seed.inner);
 
     writeln!(out, "##").unwrap();
     writeln!(
@@ -243,6 +239,7 @@ fn generate_data<P: AsRef<std::path::Path> + std::fmt::Debug, W: std::io::Write>
 mod tests {
     use super::*;
 
+    use proptest::prelude::*;
     use test_strategy::proptest;
 
     #[cfg(feature = "fast-test")]
@@ -280,10 +277,9 @@ mod tests {
         )
         .unwrap();
 
-        assert_debug_snapshot!(schema::schema_dsl::parse(&String::from_utf8_lossy(
-            &schema_buffer.into_inner()
-        ))
-        .unwrap());
+        assert_debug_snapshot!(&String::from_utf8_lossy(&schema_buffer.into_inner())
+            .parse::<schema::Schema>()
+            .unwrap());
     }
 
     #[test]
@@ -318,14 +314,17 @@ mod tests {
         )
         .unwrap();
 
-        assert_debug_snapshot!(schema::schema_dsl::parse(&String::from_utf8_lossy(
-            &data_buffer.into_inner()
-        ))
-        .unwrap());
+        assert_debug_snapshot!(&String::from_utf8_lossy(&data_buffer.into_inner())
+            .parse::<schema::Schema>()
+            .unwrap());
+    }
+
+    fn arb_seed() -> impl proptest::prelude::Strategy<Value = Seed> {
+        proptest::prelude::any::<[u8; 32]>().prop_map(|inner| Seed { inner })
     }
 
     #[proptest(cases = CASES, max_shrink_iters = MAX_SHRINK_ITERS)]
-    fn generated_schemas_are_valid(seed: Seed) {
+    fn generated_schemas_are_valid(#[strategy(arb_seed())] seed: Seed) {
         let mut schema_file = tempfile::NamedTempFile::new()?;
         run(
             Opt {
@@ -359,7 +358,7 @@ mod tests {
 
     #[proptest(cases = CASES, max_shrink_iters = MAX_SHRINK_ITERS)]
     #[ignore]
-    fn generated_data_are_valid(seed: Seed) {
+    fn generated_data_are_valid(#[strategy(arb_seed())] seed: Seed) {
         let mut schema_file = tempfile::NamedTempFile::new()?;
         run(
             Opt {

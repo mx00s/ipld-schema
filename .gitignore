@@ -1,6 +1,5 @@
-/target
+**/target
 .cargo-ok
-Cargo.lock
 *~
 
 # cargo-tarpaulin outputs

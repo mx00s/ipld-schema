@@ -1,0 +1,34 @@
+[package]
+name = "ipld-schema"
+version = "0.3.2"
+authors = ["Sage Mitchell <dev@mx00s.com>"]
+edition = "2018"
+description = "Generate and validate [IPLD Schemas](https://specs.ipld.io/schemas/) and the data they describe"
+repository = "https://github.com/mx00s/ipld-schema"
+license = "MIT OR Apache-2.0"
+
+[features]
+default = [
+    "build-binary"  # default because otherwise it raises complications for `cargo install`
+]
+fast-test = []
+build-binary = ["structopt"]
+
+[[bin]]
+name = "ipld-schema"
+path = "./src/cli.rs"
+required-features = ["build-binary"]
+
+[dependencies]
+base64 = "0.13.0"
+ipld-schema-model = { path = "../ipld-schema-model" }
+ipld-schema-macros = { path = "../ipld-schema-macros" }
+rand = "0.7.3"  # intentionally not upgrading to avoid ./target/... path collision warning
+structopt = { version = "0.3.21", optional = true }
+
+[dev-dependencies]
+insta = "1.4.0"
+pretty_assertions = "0.6.1"
+proptest = "0.10.1"
+tempfile = "3.1.0"
+test-strategy = "0.1.1"
