@@ -30,5 +30,9 @@ structopt = { version = "0.3.21", optional = true }
 insta = "1.4.0"
 pretty_assertions = "0.6.1"
 proptest = "0.10.1"
+quote = "1.0.8"
 tempfile = "3.1.0"
 test-strategy = "0.1.1"
+
+# TODO: make macro crate re-export serde dependency if possible
+serde = { version = "1.0.118", features = ["derive"] }

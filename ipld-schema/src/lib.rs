@@ -2,7 +2,7 @@
 #![deny(clippy::pedantic)]
 
 #[cfg(test)]
-mod macro_test;
+pub mod macro_test;
 
 use std::{convert::TryInto, fmt, path::PathBuf, str::FromStr};
 

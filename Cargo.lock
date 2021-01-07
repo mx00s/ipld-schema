@@ -181,7 +181,9 @@ dependencies = [
  "ipld-schema-model",
  "pretty_assertions",
  "proptest",
+ "quote",
  "rand",
+ "serde",
  "structopt",
  "tempfile",
  "test-strategy",
@@ -195,6 +197,7 @@ dependencies = [
  "ipld-schema-model",
  "proc-macro2",
  "quote",
+ "serde",
  "syn",
 ]
 

@@ -1,5 +1,8 @@
 #![allow(dead_code)]
 
+// TODO: make this an entirely private implementation. Use it and the
+//   schema_data_types! macro to generate the public interface.
+
 use std::{fmt, str::FromStr};
 
 use proptest::{collection::btree_map, prelude::*};
@@ -20,7 +23,7 @@ type Map<K, V> = std::collections::BTreeMap<K, V>;
 // TODO: docs
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-struct Null;
+pub struct Null;
 
 #[derive(
     Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, test_strategy::Arbitrary,
@@ -34,12 +37,6 @@ impl ToTokens for TypeName {
     }
 }
 
-impl ToTokens for TypeMap {
-    fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
-        todo!("type map to tokens")
-    }
-}
-
 impl ToTokens for TypeTerm {
     fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
         match self {
@@ -50,8 +47,8 @@ impl ToTokens for TypeTerm {
 }
 
 impl ToTokens for InlineDefn {
-    fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
-        todo!()
+    fn to_tokens(&self, _tokens: &mut proc_macro2::TokenStream) {
+        todo!("inline defn to tokens")
     }
 }
 
@@ -527,8 +524,8 @@ impl Default for StructRepresentation {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
 pub struct TypeEnum {
     #[strategy(btree_map(any::<EnumValue>(), any::<Null>(), DEFAULT_SIZE_RANGE))]
-    members: Map<EnumValue, Null>,
-    representation: EnumRepresentation,
+    pub members: Map<EnumValue, Null>,
+    pub representation: EnumRepresentation,
 }
 
 #[derive(
@@ -539,7 +536,7 @@ pub struct EnumValue(#[strategy("[a-z0-9_]+")] String);
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "lowercase")]
 #[derive(test_strategy::Arbitrary)]
-enum EnumRepresentation {
+pub enum EnumRepresentation {
     String(enum_representation::String),
     #[weight(0)]
     Int(enum_representation::Int),
@@ -553,7 +550,7 @@ mod enum_representation {
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default, test_strategy::Arbitrary)]
     pub struct String(
         #[strategy(btree_map(any::<EnumValue>(), "[^\"]*", DEFAULT_SIZE_RANGE))]
-        Map<EnumValue, std::string::String>,
+        pub  Map<EnumValue, std::string::String>,
     );
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default, test_strategy::Arbitrary)]
