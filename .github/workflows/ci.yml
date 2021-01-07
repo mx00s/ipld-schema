@@ -12,7 +12,7 @@ jobs:
       matrix:
         rust:
           - stable
-          - 1.40.0   # TODO: document MSRV
+          - 1.48.0
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -24,6 +24,8 @@ jobs:
           toolchain: stable
           profile: minimal
           override: true
+      - name: Install cargo-expand
+        run: cargo install cargo-expand
       - uses: actions-rs/cargo@v1
         with:
           command: test

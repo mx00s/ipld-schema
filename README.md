@@ -19,7 +19,7 @@ For pre-1.0.0 releases any known breakage in the determinism of schema/data gene
 
 The public Rust API may not expose enough to be useful; however, this will be addressed after more core features are implemented.
 
-For now the minimum supported Rust version (MSRV) is 1.40.0.
+For now the minimum supported Rust version (MSRV) is 1.48.0.
 
 ## Installation
 
