@@ -105,8 +105,7 @@ impl FromStr for Schema {
 }
 
 impl syn::parse::Parse for Schema {
-    fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
-        dbg!(&input);
+    fn parse(_input: syn::parse::ParseStream) -> syn::Result<Self> {
         // TODO: try to convert input parse stream into schema
 
         // for now returning a fixed schema for testing purposes
