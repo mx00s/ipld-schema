@@ -1,6 +1,6 @@
 ---
 source: ipld-schema/src/macro_test.rs
-expression: "String::from_utf8_lossy(&std::process::Command::new(\"cargo\").args(&[\"expand\",\n                                                                    \"--manifest-path\",\n                                                                    manifest,\n                                                                    \"--lib\",\n                                                                    \"--tests\",\n                                                                    parent_module]).output().unwrap().stdout)"
+expression: "String::from_utf8_lossy(&cmd_result.stdout)"
 ---
 #[cfg(test)]
 pub mod macro_test {
@@ -17377,7 +17377,157 @@ pub mod macro_test {
                 .unwrap()
                 .strip_suffix("::generated_tests")
                 .unwrap();
-            :: insta :: _macro_support :: assert_snapshot (:: insta :: _macro_support :: AutoName . into () , & String :: from_utf8_lossy (& std :: process :: Command :: new ("cargo") . args (& ["expand" , "--manifest-path" , manifest , "--lib" , "--tests" , parent_module]) . output () . unwrap () . stdout) , "/home/sage/w/ipld-schema/data-validation/ipld-schema" , "ipld_schema::macro_test::generated_tests" , "ipld-schema/src/macro_test.rs" , 4u32 , "String::from_utf8_lossy(&std::process::Command::new(\"cargo\").args(&[\"expand\",\n                                                                    \"--manifest-path\",\n                                                                    manifest,\n                                                                    \"--lib\",\n                                                                    \"--tests\",\n                                                                    parent_module]).output().unwrap().stdout)") . unwrap () ;
+            let cmd_result = std::process::Command::new("cargo")
+                .args(&[
+                    "expand",
+                    "--manifest-path",
+                    manifest,
+                    "--lib",
+                    "--tests",
+                    parent_module,
+                ])
+                .output()
+                .unwrap();
+            match &cmd_result.status {
+                tmp => {
+                    {
+                        ::std::io::_eprint(::core::fmt::Arguments::new_v1_formatted(
+                            &["[", ":", "] ", " = ", "\n"],
+                            &match (
+                                &"ipld-schema/src/macro_test.rs",
+                                &4u32,
+                                &"&cmd_result.status",
+                                &&tmp,
+                            ) {
+                                (arg0, arg1, arg2, arg3) => [
+                                    ::core::fmt::ArgumentV1::new(arg0, ::core::fmt::Display::fmt),
+                                    ::core::fmt::ArgumentV1::new(arg1, ::core::fmt::Display::fmt),
+                                    ::core::fmt::ArgumentV1::new(arg2, ::core::fmt::Display::fmt),
+                                    ::core::fmt::ArgumentV1::new(arg3, ::core::fmt::Debug::fmt),
+                                ],
+                            },
+                            &[
+                                ::core::fmt::rt::v1::Argument {
+                                    position: 0usize,
+                                    format: ::core::fmt::rt::v1::FormatSpec {
+                                        fill: ' ',
+                                        align: ::core::fmt::rt::v1::Alignment::Unknown,
+                                        flags: 0u32,
+                                        precision: ::core::fmt::rt::v1::Count::Implied,
+                                        width: ::core::fmt::rt::v1::Count::Implied,
+                                    },
+                                },
+                                ::core::fmt::rt::v1::Argument {
+                                    position: 1usize,
+                                    format: ::core::fmt::rt::v1::FormatSpec {
+                                        fill: ' ',
+                                        align: ::core::fmt::rt::v1::Alignment::Unknown,
+                                        flags: 0u32,
+                                        precision: ::core::fmt::rt::v1::Count::Implied,
+                                        width: ::core::fmt::rt::v1::Count::Implied,
+                                    },
+                                },
+                                ::core::fmt::rt::v1::Argument {
+                                    position: 2usize,
+                                    format: ::core::fmt::rt::v1::FormatSpec {
+                                        fill: ' ',
+                                        align: ::core::fmt::rt::v1::Alignment::Unknown,
+                                        flags: 0u32,
+                                        precision: ::core::fmt::rt::v1::Count::Implied,
+                                        width: ::core::fmt::rt::v1::Count::Implied,
+                                    },
+                                },
+                                ::core::fmt::rt::v1::Argument {
+                                    position: 3usize,
+                                    format: ::core::fmt::rt::v1::FormatSpec {
+                                        fill: ' ',
+                                        align: ::core::fmt::rt::v1::Alignment::Unknown,
+                                        flags: 4u32,
+                                        precision: ::core::fmt::rt::v1::Count::Implied,
+                                        width: ::core::fmt::rt::v1::Count::Implied,
+                                    },
+                                },
+                            ],
+                        ));
+                    };
+                    tmp
+                }
+            };
+            match String::from_utf8_lossy(&cmd_result.stderr) {
+                tmp => {
+                    {
+                        ::std::io::_eprint(::core::fmt::Arguments::new_v1_formatted(
+                            &["[", ":", "] ", " = ", "\n"],
+                            &match (
+                                &"ipld-schema/src/macro_test.rs",
+                                &4u32,
+                                &"String::from_utf8_lossy(&cmd_result.stderr)",
+                                &&tmp,
+                            ) {
+                                (arg0, arg1, arg2, arg3) => [
+                                    ::core::fmt::ArgumentV1::new(arg0, ::core::fmt::Display::fmt),
+                                    ::core::fmt::ArgumentV1::new(arg1, ::core::fmt::Display::fmt),
+                                    ::core::fmt::ArgumentV1::new(arg2, ::core::fmt::Display::fmt),
+                                    ::core::fmt::ArgumentV1::new(arg3, ::core::fmt::Debug::fmt),
+                                ],
+                            },
+                            &[
+                                ::core::fmt::rt::v1::Argument {
+                                    position: 0usize,
+                                    format: ::core::fmt::rt::v1::FormatSpec {
+                                        fill: ' ',
+                                        align: ::core::fmt::rt::v1::Alignment::Unknown,
+                                        flags: 0u32,
+                                        precision: ::core::fmt::rt::v1::Count::Implied,
+                                        width: ::core::fmt::rt::v1::Count::Implied,
+                                    },
+                                },
+                                ::core::fmt::rt::v1::Argument {
+                                    position: 1usize,
+                                    format: ::core::fmt::rt::v1::FormatSpec {
+                                        fill: ' ',
+                                        align: ::core::fmt::rt::v1::Alignment::Unknown,
+                                        flags: 0u32,
+                                        precision: ::core::fmt::rt::v1::Count::Implied,
+                                        width: ::core::fmt::rt::v1::Count::Implied,
+                                    },
+                                },
+                                ::core::fmt::rt::v1::Argument {
+                                    position: 2usize,
+                                    format: ::core::fmt::rt::v1::FormatSpec {
+                                        fill: ' ',
+                                        align: ::core::fmt::rt::v1::Alignment::Unknown,
+                                        flags: 0u32,
+                                        precision: ::core::fmt::rt::v1::Count::Implied,
+                                        width: ::core::fmt::rt::v1::Count::Implied,
+                                    },
+                                },
+                                ::core::fmt::rt::v1::Argument {
+                                    position: 3usize,
+                                    format: ::core::fmt::rt::v1::FormatSpec {
+                                        fill: ' ',
+                                        align: ::core::fmt::rt::v1::Alignment::Unknown,
+                                        flags: 4u32,
+                                        precision: ::core::fmt::rt::v1::Count::Implied,
+                                        width: ::core::fmt::rt::v1::Count::Implied,
+                                    },
+                                },
+                            ],
+                        ));
+                    };
+                    tmp
+                }
+            };
+            ::insta::_macro_support::assert_snapshot(
+                ::insta::_macro_support::AutoName.into(),
+                &String::from_utf8_lossy(&cmd_result.stdout),
+                "/home/sage/w/ipld-schema/data-validation/ipld-schema",
+                "ipld_schema::macro_test::generated_tests",
+                "ipld-schema/src/macro_test.rs",
+                4u32,
+                "String::from_utf8_lossy(&cmd_result.stdout)",
+            )
+            .unwrap();
         }
     }
 }

@@ -54,7 +54,6 @@ impl ToTokens for InlineDefn {
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
 pub struct SchemaMap(
-    // TODO: increase size range
     #[strategy(btree_map(any::<TypeName>(), any::<Type>(), DEFAULT_SIZE_RANGE))]
     pub  Map<TypeName, Type>,
 );

@@ -73,12 +73,16 @@ fn generated_tests() -> pm2::TokenStream {
                     .strip_suffix("::generated_tests")
                     .unwrap();
 
+                let cmd_result = std::process::Command::new("cargo")
+                    .args(&["expand", "--manifest-path", manifest, "--lib", "--tests", parent_module])
+                    .output()
+                    .unwrap();
+
+                dbg!(&cmd_result.status);
+                dbg!(String::from_utf8_lossy(&cmd_result.stderr));
+
                 insta::assert_snapshot!(
-                    String::from_utf8_lossy(&std::process::Command::new("cargo")
-                        .args(&["expand", "--manifest-path", manifest, "--lib", "--tests", parent_module])
-                        .output()
-                        .unwrap()
-                        .stdout)
+                    String::from_utf8_lossy(&cmd_result.stdout)
                 );
             }
 
