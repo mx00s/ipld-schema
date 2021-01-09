@@ -24,19 +24,9 @@ jobs:
           toolchain: stable
           profile: minimal
           override: true
-      # needed for macro_snapshot test which runs cargo-expand
-      - name: Install nightly
-        run: rustup install nightly     
-      - name: Install cargo-expand
-        run: cargo install cargo-expand
       - uses: actions-rs/cargo@v1
         with:
           command: test
-        continue-on-error: true
-      - name: Download ipld-schema snapshots
-        uses: actions/download-artifact@v2
-        with:
-          path: ipld-schema/src/snapshots
 
   build-binary:
     name: Build binary

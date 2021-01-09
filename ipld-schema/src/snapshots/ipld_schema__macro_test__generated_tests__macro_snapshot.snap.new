@@ -1,5 +1,0 @@
----
-source: ipld-schema/src/macro_test.rs
-expression: "String::from_utf8_lossy(&cmd_result.stdout)"
----
-
