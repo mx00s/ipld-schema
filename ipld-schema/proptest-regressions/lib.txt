@@ -1,0 +1,7 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc f2cd8c3d786fe401d60692629387bb40986f1b78b73ae00df01ee23e58312905 # shrinks to input = _GeneratedDataAreValidArgs { seed: "c5EvnI6jPZw+jrkGo97U3uGWin96o4CsuAHBacTlQmE=".parse::<Seed>().unwrap() }

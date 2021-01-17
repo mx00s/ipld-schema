@@ -184,6 +184,7 @@ dependencies = [
  "quote",
  "rand",
  "serde",
+ "serde_json",
  "structopt",
  "tempfile",
  "test-strategy",

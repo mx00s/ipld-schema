@@ -9,11 +9,25 @@ use syn::parse_macro_input;
 
 // TODO: finish proc-macro implementation
 
+// expects a string literal representing the path to an IPLD schema file (relative to the consuming crate's cargo manifest directory)
 #[proc_macro]
-pub fn schema_data_types(input: TokenStream) -> TokenStream {
-    // TODO: explore using `Any` and `downcast_ref` to avoid needing `impl syn::parse::Parse for Schema`
-    let schema = parse_macro_input!(input as Schema);
+pub fn import_schema(input: TokenStream) -> TokenStream {
+    if let syn::Expr::Lit(lit) = parse_macro_input!(input as syn::Expr) {
+        if let syn::Lit::Str(s) = lit.lit {
+            let path = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), s.value());
+            let contents = std::fs::read_to_string(&path).unwrap();
+            let schema = contents.parse::<Schema>().unwrap();
+            // TODO: fall back to JSON parsing when parsing as DSL fails
 
+            return types_for(schema);
+        }
+    }
+    unimplemented!(
+        "only string literals representing the path to an IPLD schema file are supported"
+    )
+}
+
+fn types_for(schema: Schema) -> TokenStream {
     // TODO: handle schema.advanced
 
     let mut result = quote! {
@@ -25,6 +39,7 @@ pub fn schema_data_types(input: TokenStream) -> TokenStream {
         type Int = i64;
         type Float = f64;
         type Map<K, V> = std::collections::BTreeMap<K, V>;
+        type Null = ();
     };
 
     for (name, ty) in schema.types.0 {
@@ -93,7 +108,7 @@ fn generated_tests() -> pm2::TokenStream {
 fn type_string(name: TypeName, _t: TypeString) -> pm2::TokenStream {
     quote! {
         #[derive(Eq, Ord)]
-        struct #name(String);
+        pub struct #name(pub String);
     }
 }
 
@@ -103,9 +118,8 @@ fn type_map(name: TypeName, t: TypeMap) -> pm2::TokenStream {
 
     match &t.representation {
         MapRepresentation::Map(_m) => {
-            // TODO: ensure Ord is implemented for #k
             quote! {
-                struct #name(Map<#k, #v>);
+                pub struct #name(pub Map<#k, #v>);
             }
         }
         _ => {
@@ -119,7 +133,7 @@ fn type_union(name: TypeName, t: TypeUnion) -> pm2::TokenStream {
     match &t.representation {
         UnionRepresentation::Kinded(r) => {
             let mut decl = String::new();
-            writeln!(decl, "enum {} {{", name).unwrap();
+            writeln!(decl, "pub enum {} {{", name).unwrap();
             for (kind, ty_name) in &r.0 {
                 let ty = match kind {
                     RepresentationKind::Bool => "Bool",
@@ -142,7 +156,7 @@ fn type_union(name: TypeName, t: TypeUnion) -> pm2::TokenStream {
         }
         UnionRepresentation::Keyed(r) => {
             let mut decl = String::new();
-            writeln!(decl, "enum {} {{", name).unwrap();
+            writeln!(decl, "pub enum {} {{", name).unwrap();
             for (discrim, ty_name) in &r.0 {
                 writeln!(decl, "    r#{}({}),", discrim, ty_name).unwrap();
             }
@@ -155,7 +169,7 @@ fn type_union(name: TypeName, t: TypeUnion) -> pm2::TokenStream {
             let _discriminant_key = &r.discriminant_key;
 
             let mut decl = String::new();
-            writeln!(decl, "enum {} {{", name).unwrap();
+            writeln!(decl, "pub enum {} {{", name).unwrap();
             for (discrim, ty_name) in &r.discriminant_table {
                 writeln!(decl, "    r#{}({}),", discrim, ty_name).unwrap();
             }
@@ -171,16 +185,15 @@ fn type_struct(name: TypeName, t: TypeStruct) -> pm2::TokenStream {
     match t.representation {
         StructRepresentation::Map(_r) => {
             let mut decl = String::new();
-            writeln!(decl, "struct {} {{", name).unwrap();
-            for (_field_name, _struct_field) in t.fields {
-                // dbg!(&field_name);
-                // dbg!(&struct_field);
+            writeln!(decl, "pub struct {} {{", name).unwrap();
+            for (field_name, struct_field) in t.fields {
+                let ty = type_term(struct_field.r#type);
 
-                // TODO: check if s.fields.get(field_name) has any field details
+                // TODO: handle struct_field's `optional` and `nullable` flags
 
-                // TODO: handle struct field
+                // TODO: only use Box when necessary
 
-                // TODO: use raw identifier (r#) for field names
+                writeln!(decl, "    pub r#{}: Box<{}>,", field_name, ty).unwrap();
             }
             writeln!(decl, "}}").unwrap();
             decl.parse().unwrap()
@@ -192,12 +205,39 @@ fn type_struct(name: TypeName, t: TypeStruct) -> pm2::TokenStream {
     }
 }
 
+fn type_term(t: TypeTerm) -> pm2::TokenStream {
+    match t {
+        TypeTerm::TypeName(name) => name.to_string().parse().unwrap(),
+        TypeTerm::InlineDefn(inline) => match *inline {
+            InlineDefn::Map(m) => {
+                let k = &m.key_type;
+                let v = &m.value_type;
+
+                // TODO: handle `value_nullable` and `representation`
+
+                quote! {
+                    Map<#k, #v>
+                }
+            }
+            InlineDefn::List(l) => {
+                let v = &l.value_type;
+
+                // TODO: handle `value_nullable` and `representation`
+
+                quote! {
+                    Vec<#v>
+                }
+            }
+        },
+    }
+}
+
 fn type_enum(name: TypeName, t: TypeEnum) -> pm2::TokenStream {
     match t.representation {
         EnumRepresentation::String(r) => {
             let mut decl = String::new();
             writeln!(decl, "#[derive(Eq, Ord)]").unwrap();
-            writeln!(decl, "enum {} {{", name).unwrap();
+            writeln!(decl, "pub enum {} {{", name).unwrap();
             for (val, _null) in t.members {
                 let _name = r.0.get(&val).unwrap_or(&val.to_string());
                 // TODO: have serde associate `_name` with this variant

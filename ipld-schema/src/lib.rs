@@ -1,7 +1,7 @@
 #![deny(clippy::all)]
 #![deny(clippy::pedantic)]
 
-#[cfg(test)]
+// #[cfg(test)]
 pub mod macro_test;
 
 use std::{convert::TryInto, fmt, path::PathBuf, str::FromStr};
@@ -324,6 +324,7 @@ mod tests {
     }
 
     #[proptest(cases = CASES, max_shrink_iters = MAX_SHRINK_ITERS)]
+    #[ignore]
     fn generated_schemas_are_valid(#[strategy(arb_seed())] seed: Seed) {
         let mut schema_file = tempfile::NamedTempFile::new()?;
         run(

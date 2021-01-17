@@ -104,15 +104,6 @@ impl FromStr for Schema {
     }
 }
 
-impl syn::parse::Parse for Schema {
-    fn parse(_input: syn::parse::ParseStream) -> syn::Result<Self> {
-        // TODO: try to convert input parse stream into schema
-
-        // for now returning a fixed schema for testing purposes
-        Ok(Self::schema_schema())
-    }
-}
-
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(tag = "kind", rename_all = "lowercase")]
 #[derive(test_strategy::Arbitrary)]
@@ -283,17 +274,17 @@ impl Default for MapRepresentation {
 #[serde(rename_all = "camelCase")]
 #[derive(test_strategy::Arbitrary)]
 pub struct TypeList {
-    value_type: TypeTerm,
+    pub value_type: TypeTerm,
 
     #[serde(default, skip_serializing_if = "is_default")]
-    value_nullable: bool,
+    pub value_nullable: bool,
 
     #[serde(default, skip_serializing_if = "is_default")]
-    representation: ListRepresentation,
+    pub representation: ListRepresentation,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
-enum ListRepresentation {
+pub enum ListRepresentation {
     List(list_representation::List),
     #[weight(0)]
     Advanced(AdvancedDataLayoutName),
@@ -1291,7 +1282,7 @@ mod tests {
             eprintln!("  {:>4}  │ {}", n + 1, line);
         }
 
-        assert_eq!(*schema, schema_dsl::parse(&rendered).unwrap());
+        assert_eq!(*schema, rendered.parse::<Schema>().unwrap());
     }
 
     #[test]
