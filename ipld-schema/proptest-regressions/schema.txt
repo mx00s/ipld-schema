@@ -1,0 +1,10 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc b5f40c17c33c2bac6da15dbb8190afd850ede55d1dc60498c6357d6971d219cd # shrinks to input = _AnyScalarRoundtripsThroughJsonArgs { val: Float(0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008065086549133485) }
+cc dee67f7f0dcceeb9dda10caf7ca6ac8406269757341d74037766c47b425f566b # shrinks to input = _StructRepresentationRoundtripsThroughJsonArgs { val: map(StructRepresentation_Map { fields: {FieldName("A"): StructRepresentation_Map_FieldDetails { implicit: Float(-2713447.2690632762), rename: "" }} }) }
+cc f3d38afdf923905589234d4844a5506b6ea3e2f4c77a4ca79fc66f6a33e85e97 # shrinks to input = _StructRepresentationMapRoundtripsThroughJsonArgs { val: StructRepresentation_Map { fields: {FieldName("A"): StructRepresentation_Map_FieldDetails { implicit: Float(-0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010233822430550932), rename: "" }} } }
+cc 8a001da554e7c6084da88ad2674eb4b51fc6b13406d0e8a21c6904cf4f14673d # shrinks to input = _TypeStructArgs { val: TypeStruct { fields: {}, representation: map(StructRepresentation_Map { fields: {FieldName("A"): StructRepresentation_Map_FieldDetails { implicit: Float(576590789254397000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.0), rename: "" }} }) } }

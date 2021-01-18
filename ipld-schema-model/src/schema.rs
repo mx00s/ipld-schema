@@ -32,8 +32,8 @@ pub struct TypeName(#[strategy("[A-Z][a-z0-9_]*")] String);
 
 impl ToTokens for TypeName {
     fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
-        let name = proc_macro2::Ident::new(&self.0, proc_macro2::Span::mixed_site());
-        tokens.extend(vec![quote! { #name }])
+        let name = proc_macro2::Ident::new(&self.0, proc_macro2::Span::call_site());
+        tokens.extend(vec![quote!(#name)])
     }
 }
 
@@ -41,14 +41,10 @@ impl ToTokens for TypeTerm {
     fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
         match self {
             TypeTerm::TypeName(t) => t.to_tokens(tokens),
-            TypeTerm::InlineDefn(t) => t.to_tokens(tokens),
+            TypeTerm::InlineDefn(_) => unimplemented!(
+                "macros must determine how inline definitions are representated as Rust types"
+            ),
         };
-    }
-}
-
-impl ToTokens for InlineDefn {
-    fn to_tokens(&self, _tokens: &mut proc_macro2::TokenStream) {
-        todo!("inline defn to tokens")
     }
 }
 

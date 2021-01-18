@@ -9,6 +9,8 @@ use syn::parse_macro_input;
 
 // TODO: finish proc-macro implementation
 
+// TODO: add serde hints so reified JSON representation is correct
+
 // expects a string literal representing the path to an IPLD schema file (relative to the consuming crate's cargo manifest directory)
 #[proc_macro]
 pub fn import_schema(input: TokenStream) -> TokenStream {
@@ -32,6 +34,9 @@ fn types_for(schema: Schema) -> TokenStream {
 
     let mut result = quote! {
         use serde::{Serialize, Deserialize};
+        use proptest::{collection::btree_map, prelude::*};
+
+        const DEFAULT_SIZE_RANGE: std::ops::RangeInclusive<usize> = 0..=10;
 
         type Bool = bool;
         // type String = String;
@@ -46,14 +51,13 @@ fn types_for(schema: Schema) -> TokenStream {
         // dbg!((&name, &ty));
 
         let decl = match ty {
-            Type::String(t) => type_string(name, t),
-            Type::Map(t) => type_map(name, t),
-            Type::Union(t) => type_union(name, t),
-            Type::Struct(t) => type_struct(name, t),
-            Type::Enum(t) => type_enum(name, t),
+            Type::String(t) => type_string(&name, t),
+            Type::Map(t) => type_map(&name, t),
+            Type::Union(t) => type_union(&name, t),
+            Type::Struct(t) => type_struct(&name, t),
+            Type::Enum(t) => type_enum(&name, t),
             _ => {
-                dbg!(&ty);
-                todo!("other types")
+                todo!("generate rust type for {:?}", ty);
             }
         };
 
@@ -63,6 +67,20 @@ fn types_for(schema: Schema) -> TokenStream {
             quote! {
                 #[derive(Serialize, Deserialize, PartialEq, PartialOrd, Clone, Debug, test_strategy::Arbitrary)]
                 #decl
+
+                impl std::fmt::Display for #name {
+                    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> std::fmt::Result {
+                        todo!("render DSL form of type (ideally a copy from the source along with preceding comments)")
+                    }
+                }
+
+                impl FromStr for #name {
+                    type Err = ();
+
+                    fn from_str(_s: &str) -> Result<Self, Self::Err> {
+                        todo!("implement DSL parser for generated types for schema-schema")
+                    }
+                }
             },
         ]);
     }
@@ -77,6 +95,8 @@ fn generated_tests() -> pm2::TokenStream {
     quote! {
         #[cfg(test)]
         mod generated_tests {
+            use super::*;
+
             #[test]
             #[ignore = "Doesn't yield consistent results in CI"]
             fn macro_snapshot() {
@@ -99,27 +119,133 @@ fn generated_tests() -> pm2::TokenStream {
                 );
             }
 
-            // TODO: roundtripping through serialize and deserialize
-            //   - build up a set of Rust types so tests can be generated for each
+            #[cfg(feature = "fast-test")]
+            const CASES: u32 = 10;
+            #[cfg(not(feature = "fast-test"))]
+            const CASES: u32 = 1000;
+
+            #[cfg(feature = "fast-test")]
+            const MAX_SHRINK_ITERS: u32 = 100;
+            #[cfg(not(feature = "fast-test"))]
+            const MAX_SHRINK_ITERS: u32 = 10000;
+
+            macro_rules! type_tests {
+                ($($t:ty,)*) => {
+                    mod roundtrip_json {
+                        use super::*;
+
+                        $(paste::paste! {
+                            #[test_strategy::proptest(cases = CASES, max_shrink_iters = MAX_SHRINK_ITERS)]
+                            #[allow(non_snake_case)]
+                            fn [<$t>](val: $t) {
+                                let there = serde_json::to_string(&val).unwrap();
+                                let back = serde_json::from_str(&there).unwrap();
+
+                                proptest::prop_assert_eq!(val, back);
+                            }
+                        })*
+                    }
+
+                    mod roundtrip_dsl {
+                        use super::*;
+
+                        $(paste::paste! {
+                            #[test_strategy::proptest(cases = CASES, max_shrink_iters = MAX_SHRINK_ITERS)]
+                            #[allow(non_snake_case)]
+                            #[ignore = "implement ToString and FromStr for generated types first"]
+                            fn [<$t>](val: $t) {
+                                let there = val.to_string();
+                                let back = there.parse::<$t>().unwrap();
+
+                                for (n, line) in there.lines().enumerate() {
+                                    eprintln!("  {:>4}  │ {}", n + 1, line);
+                                }
+
+                                proptest::prop_assert_eq!(val, back);
+                            }
+                        })*
+                    }
+                }
+            }
+
+            // TODO: generate set of types so their tests can be implemented automatically
+
+            type_tests!(
+                /* STRUCTS */
+                AdvancedDataLayout,
+                AdvancedDataLayoutMap,
+                AdvancedDataLayoutName,
+                BytesRepresentation_Bytes,
+                EnumRepresentation_Int,
+                EnumRepresentation_String,
+                EnumValue,
+                FieldName,
+                ListRepresentation_List,
+                MapRepresentation_ListPairs,
+                MapRepresentation_Map,
+                MapRepresentation_StringPairs,
+                Schema,
+                SchemaMap,
+                StructField,
+                StructRepresentation_ListPairs,
+                StructRepresentation_Map,
+                StructRepresentation_Map_FieldDetails,
+                StructRepresentation_StringJoin,
+                StructRepresentation_StringPairs,
+                StructRepresentation_Tuple,
+                TypeBool,
+                TypeBytes,
+                TypeCopy,
+                TypeEnum,
+                TypeFloat,
+                TypeInt,
+                TypeLink,
+                TypeList,
+                TypeMap,
+                TypeName,
+                TypeString,
+                TypeStruct,
+                TypeUnion,
+                UnionRepresentation_BytePrefix,
+                UnionRepresentation_Envelope,
+                UnionRepresentation_Inline,
+                UnionRepresentation_Keyed,
+                UnionRepresentation_Kinded,
+                /* ENUMS */
+                AnyScalar,
+                BytesRepresentation,
+                EnumRepresentation,
+                InlineDefn,
+                ListRepresentation,
+                MapRepresentation,
+                RepresentationKind,
+                StructRepresentation,
+                Type,
+                TypeKind,
+                TypeTerm,
+                UnionRepresentation,
+            );
         }
     }
 }
 
-fn type_string(name: TypeName, _t: TypeString) -> pm2::TokenStream {
+fn type_string(name: &TypeName, _t: TypeString) -> pm2::TokenStream {
     quote! {
+        // TODO: relax the strategy
         #[derive(Eq, Ord)]
-        pub struct #name(pub String);
+        pub struct #name(#[strategy("[A-Z][a-z0-9_]*")] pub String);
     }
 }
 
-fn type_map(name: TypeName, t: TypeMap) -> pm2::TokenStream {
+fn type_map(name: &TypeName, t: TypeMap) -> pm2::TokenStream {
     let k = &t.key_type;
     let v = &t.value_type;
 
     match &t.representation {
         MapRepresentation::Map(_m) => {
+            // TODO: relax the strategy
             quote! {
-                pub struct #name(pub Map<#k, #v>);
+                pub struct #name(#[strategy(btree_map(any::<#k>(), any::<#v>(), DEFAULT_SIZE_RANGE))] pub Map<#k, #v>);
             }
         }
         _ => {
@@ -129,7 +255,7 @@ fn type_map(name: TypeName, t: TypeMap) -> pm2::TokenStream {
     }
 }
 
-fn type_union(name: TypeName, t: TypeUnion) -> pm2::TokenStream {
+fn type_union(name: &TypeName, t: TypeUnion) -> pm2::TokenStream {
     match &t.representation {
         UnionRepresentation::Kinded(r) => {
             let mut decl = String::new();
@@ -145,6 +271,14 @@ fn type_union(name: TypeName, t: TypeUnion) -> pm2::TokenStream {
                     RepresentationKind::List => "List",
                     RepresentationKind::Link => "Link",
                 };
+
+                // TODO: remove after fixing stack overflow and float roundtripping in proptest strategies
+                if (name.to_string() == "TypeTerm" && ty == "Map")
+                    || (name.to_string() == "AnyScalar" && ty == "Float")
+                {
+                    writeln!(decl, "    #[weight(0)]").unwrap();
+                }
+
                 writeln!(decl, "    r#{}({}),", ty, ty_name).unwrap();
             }
             writeln!(decl, "}}").unwrap();
@@ -181,18 +315,25 @@ fn type_union(name: TypeName, t: TypeUnion) -> pm2::TokenStream {
     }
 }
 
-fn type_struct(name: TypeName, t: TypeStruct) -> pm2::TokenStream {
+fn type_struct(name: &TypeName, t: TypeStruct) -> pm2::TokenStream {
     match t.representation {
         StructRepresentation::Map(_r) => {
             let mut decl = String::new();
             writeln!(decl, "pub struct {} {{", name).unwrap();
             for (field_name, struct_field) in t.fields {
-                let ty = type_term(struct_field.r#type);
+                let ty = type_term(struct_field.r#type.clone());
 
                 // TODO: handle struct_field's `optional` and `nullable` flags
 
                 // TODO: only use Box when necessary
 
+                if let TypeTerm::InlineDefn(inline) = struct_field.r#type {
+                    if let InlineDefn::Map(m) = *inline {
+                        let k = &m.key_type;
+                        let v = &m.value_type;
+                        writeln!(decl, "    {}", quote!(#[strategy(btree_map(any::<#k>(), any::<#v>(), DEFAULT_SIZE_RANGE).prop_map(Box::new))])).unwrap();
+                    }
+                }
                 writeln!(decl, "    pub r#{}: Box<{}>,", field_name, ty).unwrap();
             }
             writeln!(decl, "}}").unwrap();
@@ -232,7 +373,7 @@ fn type_term(t: TypeTerm) -> pm2::TokenStream {
     }
 }
 
-fn type_enum(name: TypeName, t: TypeEnum) -> pm2::TokenStream {
+fn type_enum(name: &TypeName, t: TypeEnum) -> pm2::TokenStream {
     match t.representation {
         EnumRepresentation::String(r) => {
             let mut decl = String::new();

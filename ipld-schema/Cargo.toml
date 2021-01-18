@@ -28,6 +28,7 @@ structopt = { version = "0.3.21", optional = true }
 
 # [dev-dependencies]
 insta = "1.4.0"
+paste = "1.0"
 pretty_assertions = "0.6.1"
 proptest = "0.10.1"
 quote = "1.0.8"
