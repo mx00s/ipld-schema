@@ -97,7 +97,7 @@ fn types_for(schema: Schema) -> pm2::TokenStream {
     // TODO: only use if user enables a feature
     result.extend(vec![generated_tests()]);
 
-    result.into()
+    result
 }
 
 fn generated_tests() -> pm2::TokenStream {

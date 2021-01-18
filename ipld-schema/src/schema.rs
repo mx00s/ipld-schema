@@ -1,5 +1,6 @@
 #[ipld_schema_macros::ipld_schema("../specs/schemas/schema-schema.ipldsch")]
 mod extra {
+    #[allow(clippy::wildcard_imports)]
     use super::*;
 
     impl Schema {
