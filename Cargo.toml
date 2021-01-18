@@ -1,6 +1,5 @@
 [workspace]
 members = [
-    "ipld-schema-model",
     "ipld-schema-macros",
     "ipld-schema",
 ]

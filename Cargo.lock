@@ -178,7 +178,6 @@ dependencies = [
  "base64",
  "insta",
  "ipld-schema-macros",
- "ipld-schema-model",
  "paste",
  "pretty_assertions",
  "proptest",
@@ -193,18 +192,6 @@ dependencies = [
 
 [[package]]
 name = "ipld-schema-macros"
-version = "0.3.2"
-dependencies = [
- "insta",
- "ipld-schema-model",
- "proc-macro2",
- "quote",
- "serde",
- "syn",
-]
-
-[[package]]
-name = "ipld-schema-model"
 version = "0.3.2"
 dependencies = [
  "insta",

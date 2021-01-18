@@ -7,14 +7,21 @@ description = "Macros for [IPLD Schemas](https://specs.ipld.io/schemas/)"
 repository = "https://github.com/mx00s/ipld-schema"
 license = "MIT OR Apache-2.0"
 
+[features]
+default = []
+fast-test = []
+
 [lib]
 proc-macro = true
 
 [dependencies]
-ipld-schema-model = { path = "../ipld-schema-model" }
+peg = "0.6.3"
 proc-macro2 = "1.0.24"
+proptest = "0.10.1"
 quote = "1.0.8"
+rand = "0.7.3"  # intentionally not upgrading to avoid ./target/... path collision warning
 serde = { version = "1.0.118", features = ["derive"] }
+test-strategy = "0.1.1"
 
 [dependencies.syn]
 version = "1.0.57"
@@ -25,3 +32,6 @@ features = [
 
 [dev-dependencies]
 insta = "1.4.0"
+pretty_assertions = "0.6.1"
+serde_json = "1.0.61"
+tempfile = "3.1.0"

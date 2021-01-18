@@ -7,9 +7,8 @@
 
 [alias]
 # run fast version of test suites
-t = "do t-model,t-macros,t-schema"
-t-model = "test --manifest-path ./ipld-schema-model/Cargo.toml --features fast-test"
-t-macros = "test --manifest-path ./ipld-schema-macros/Cargo.toml"
+t = "do t-macros,t-schema"
+t-macros = "test --manifest-path ./ipld-schema-macros/Cargo.toml --features fast-test"
 t-schema = "test --manifest-path ./ipld-schema/Cargo.toml --features fast-test"
 
 # code coverage

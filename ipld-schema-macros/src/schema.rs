@@ -1,7 +1,11 @@
 #![allow(dead_code)]
 
-// TODO: make this an entirely private implementation. Use it and the
-//   schema_data_types! macro to generate the public interface.
+// TODO: Consider switching to modeling the synatic forms of schemas
+//   rather than what they represent conceptually. For example, make a
+//   type to describe a brace-enclosed segment of code along with a generic
+//   parameter to describe the shape of its contents. Then
+//   the import_schema macro can generate conceptual types from compositions
+//   of these syntactic forms.
 
 use std::{fmt, str::FromStr};
 
@@ -17,10 +21,6 @@ const DEFAULT_SIZE_RANGE: std::ops::RangeInclusive<usize> = 0..=100;
 type Int = i64;
 type Float = f64;
 type Map<K, V> = std::collections::BTreeMap<K, V>;
-
-// TODO: revisit public API
-
-// TODO: docs
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, test_strategy::Arbitrary)]
 pub struct Null;
@@ -78,17 +78,6 @@ impl Schema {
         std::include_str!("../../specs/schemas/schema-schema.ipldsch")
             .parse()
             .unwrap()
-    }
-
-    pub fn from_seed(seed: [u8; 32]) -> Self {
-        let config = proptest::test_runner::Config::default();
-        let rng = proptest::test_runner::TestRng::from_seed(
-            proptest::test_runner::RngAlgorithm::ChaCha,
-            &seed,
-        );
-        let mut runner = proptest::test_runner::TestRunner::new_with_rng(config, rng);
-
-        Self::arbitrary().new_tree(&mut runner).unwrap().current()
     }
 }
 

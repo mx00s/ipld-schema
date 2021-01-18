@@ -1,9 +1,11 @@
 extern crate proc_macro;
 
-use ipld_schema_model::schema::*;
+mod schema;
+
 use proc_macro::TokenStream;
 use proc_macro2 as pm2;
 use quote::quote;
+use schema::*;
 use std::fmt::Write;
 use syn::parse_macro_input;
 
@@ -48,8 +50,6 @@ fn types_for(schema: Schema) -> TokenStream {
     };
 
     for (name, ty) in schema.types.0 {
-        // dbg!((&name, &ty));
-
         let decl = match ty {
             Type::String(t) => type_string(&name, t),
             Type::Map(t) => type_map(&name, t),
@@ -60,8 +60,6 @@ fn types_for(schema: Schema) -> TokenStream {
                 todo!("generate rust type for {:?}", ty);
             }
         };
-
-        // dbg!(decl.to_string());
 
         result.extend(vec![
             quote! {
@@ -249,8 +247,7 @@ fn type_map(name: &TypeName, t: TypeMap) -> pm2::TokenStream {
             }
         }
         _ => {
-            dbg!(t);
-            todo!("handle other map representations");
+            todo!("handle map representation: {:?}", t);
         }
     }
 }
@@ -340,8 +337,7 @@ fn type_struct(name: &TypeName, t: TypeStruct) -> pm2::TokenStream {
             decl.parse().unwrap()
         }
         _ => {
-            dbg!(t);
-            todo!("handle other struct representations")
+            todo!("handle struct representation: {:?}", t)
         }
     }
 }

@@ -21,7 +21,6 @@ required-features = ["build-binary"]
 
 [dependencies]
 base64 = "0.13.0"
-ipld-schema-model = { path = "../ipld-schema-model" }
 ipld-schema-macros = { path = "../ipld-schema-macros" }
 rand = "0.7.3"  # intentionally not upgrading to avoid ./target/... path collision warning
 structopt = { version = "0.3.21", optional = true }

@@ -1,5 +1,5 @@
 ---
-source: src/schema.rs
+source: ipld-schema-macros/src/schema.rs
 expression: "Schema::schema_schema()"
 ---
 Schema {
