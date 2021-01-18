@@ -14,24 +14,28 @@ use syn::parse_macro_input;
 // TODO: add serde hints so reified JSON representation is correct
 
 // expects a string literal representing the path to an IPLD schema file (relative to the consuming crate's cargo manifest directory)
-#[proc_macro]
-pub fn import_schema(input: TokenStream) -> TokenStream {
-    if let syn::Expr::Lit(lit) = parse_macro_input!(input as syn::Expr) {
-        if let syn::Lit::Str(s) = lit.lit {
-            let path = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), s.value());
-            let contents = std::fs::read_to_string(&path).unwrap();
-            let schema = contents.parse::<Schema>().unwrap();
-            // TODO: fall back to JSON parsing when parsing as DSL fails
+#[proc_macro_attribute]
+pub fn ipld_schema(attr: TokenStream, item: TokenStream) -> TokenStream {
+    let path = parse_macro_input!(attr as syn::LitStr);
+    let types = types_for(load_schema(&path.value()));
 
-            return types_for(schema);
-        }
-    }
-    unimplemented!(
-        "only string literals representing the path to an IPLD schema file are supported"
-    )
+    let item = parse_macro_input!(item as syn::ItemMod);
+
+    (quote! {
+        #types
+
+        #item
+    })
+    .into()
 }
 
-fn types_for(schema: Schema) -> TokenStream {
+fn load_schema(path: &str) -> Schema {
+    let path = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), path);
+    let contents = std::fs::read_to_string(&path).unwrap();
+    contents.parse::<Schema>().unwrap()
+}
+
+fn types_for(schema: Schema) -> pm2::TokenStream {
     // TODO: handle schema.advanced
 
     let mut result = quote! {
@@ -66,13 +70,20 @@ fn types_for(schema: Schema) -> TokenStream {
                 #[derive(Serialize, Deserialize, PartialEq, PartialOrd, Clone, Debug, test_strategy::Arbitrary)]
                 #decl
 
+                // TODO: Reconsider whether every type for every schema should have Display and FromStr impls.
+                //   It's convenient for the schema-schema types because their implementations enable
+                //   parsing and unparsing schemas. However, the Display and FromStr impls for types from other
+                //   schemas don't have much reason to parse/unparse their DSL representations.
+                //
+                //   A function that takes a TypeName and renders its DSL definition would be heplful, though.
+
                 impl std::fmt::Display for #name {
-                    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> std::fmt::Result {
+                    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
                         todo!("render DSL form of type (ideally a copy from the source along with preceding comments)")
                     }
                 }
 
-                impl FromStr for #name {
+                impl std::str::FromStr for #name {
                     type Err = ();
 
                     fn from_str(_s: &str) -> Result<Self, Self::Err> {

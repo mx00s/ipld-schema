@@ -27,7 +27,7 @@ test-strategy = "0.1.1"
 version = "1.0.57"
 features = [
     "parsing",
-    # "extra-traits",  # useful during development for Debug trait
+    "extra-traits",
 ]
 
 [dev-dependencies]
