@@ -21,7 +21,7 @@ required-features = ["build-binary"]
 base64 = "0.13.0"
 peg = "0.6.3"
 proptest = "0.10.1"
-rand = "0.7.3"  # intentionally not upgrading to avoid ./target/... path collision warning
+rand = "0.8.4"  # intentionally not upgrading to avoid ./target/... path collision warning
 serde = { version = "1.0.118", features = ["derive"] }
 structopt = { version = "0.3.21", optional = true }
 test-strategy = "0.1.1"
